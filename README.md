@@ -1,10 +1,13 @@
 # swagger2html
 
 Converts swagger jsons to html documents which are readable by everybody.
+------
 
 __Swagger-Codegen already has a tool to generate html documents. However, it seems ugly and to be in lack of information.__
 
 ![petstore-by-swagger-cg](sample/petstore-by-swagger-cg.png)
+
+------
 
 __This project produces a neat one:__
 
