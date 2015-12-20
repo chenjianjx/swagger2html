@@ -42,10 +42,12 @@ public class Swagger2Html {
 		Swagger originalSwagger = swaggerParser.read(swaggerUrl);
 		SwaggerWrapper sw = new SwaggerWrapper(originalSwagger);
 		model.put("sw", sw);
-		model.put("displayList", new DisplayListMethodModel());
-		model.put("paramType", new ParamTypeMethodModel());
-		model.put("responseType", new ResponseTypeMethodModel());		
-		
+		model.put("displayList", new DisplayList());
+		model.put("paramType", new ParamType());
+		model.put("isResponsePrimitiveType", new IsResponsePrimitiveType());
+		model.put("isResponseDefType", new IsResponseDefType());
+
+		model.put("responseTypeStr", new ReponseTypeString());
 
 		try {
 			template.process(model, out);
@@ -56,7 +58,7 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class DisplayListMethodModel implements TemplateMethodModelEx {
+	private final class DisplayList implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
@@ -69,7 +71,7 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class ParamTypeMethodModel implements TemplateMethodModelEx {
+	private final class ParamType implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			String prop = "type";
@@ -78,8 +80,7 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class ResponseTypeMethodModel implements
-			TemplateMethodModelEx {
+	private final class ReponseTypeString implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
@@ -89,16 +90,78 @@ public class Swagger2Html {
 			}
 
 			Property schema = response.getSchema();
-			if (schema == null) {
-				return null;
+			return propertyTypeString(schema);
+		}
+	}
+	
+	private Object propertyTypeString(Property property) {
+		if (property == null) {
+			return null;
+		}
+
+		if (property instanceof RefProperty) {
+			RefProperty rf = (RefProperty) property;
+			return rf.getSimpleRef();
+		}
+		return property.getType();
+	}
+
+	@SuppressWarnings("rawtypes")
+	private final class IsResponseDefType implements TemplateMethodModelEx {
+		@Override
+		public Object exec(List arguments) throws TemplateModelException {
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			Response response = (Response) DeepUnwrap.unwrap(arg);
+			if (response == null) {
+				return false;
 			}
 
-			if (schema instanceof RefProperty) {
-				RefProperty rf = (RefProperty) schema;
-				return rf.getSimpleRef();
-			}
-			return schema.getType();
+			Property schema = response.getSchema();
+			return isPropertyDefType(schema);
+
 		}
+
+	}
+
+	@SuppressWarnings("rawtypes")
+	private final class IsResponsePrimitiveType implements
+			TemplateMethodModelEx {
+		@Override
+		public Object exec(List arguments) throws TemplateModelException {
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			Response response = (Response) DeepUnwrap.unwrap(arg);
+			if (response == null) {
+				return false;
+			}
+
+			Property schema = response.getSchema();
+			return isPropertyPrimitiveType(schema);
+		}
+
+	}
+
+	private Object isPropertyDefType(Property property) {
+		if (property == null) {
+			return false;
+		}
+
+		if (!(property instanceof RefProperty)) {
+			return false;
+		}
+
+		RefProperty rf = (RefProperty) property;
+		return rf.getSimpleRef() != null;
+	}
+
+	private Object isPropertyPrimitiveType(Property schema) {
+		if (schema == null) {
+			return false;
+		}
+
+		if (schema instanceof RefProperty) {
+			return false;
+		}
+		return schema.getType() != null;
 	}
 
 	// TODO: response headers

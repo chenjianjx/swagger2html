@@ -3,28 +3,28 @@
 
 	<!DOCTYPE html>
 	<html lang="en">
-	  <head>
-	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    
+		<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
 	
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">		
 		<title>
 			${sw.getTitle()}
 		</title>
 	
-	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	    <!--[if lt IE 9]>
-	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	    <![endif]-->
-	  </head>
-	  <body>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>	    
-	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	    <div class="container">
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		</head>
+		<body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<div class="container">
 			<h1>${sw.getTitle()}</h1>			
 			
 			<hr/>
@@ -65,7 +65,7 @@
 			</#list>
 			</#if>
 			
-			<hr/>
+	
 			
 			
 			
@@ -104,6 +104,11 @@
 							</table>	
 						</div>	
 														
+														
+						<#macro defProps>
+							<tr>
+							</tr>
+						</#macro>  															
 				 
 						<h4>Parameters</h4>		
 						
@@ -122,7 +127,9 @@
 											<tr>																	
 												<td>${param.getName()}</td>
 												<td>${param.getIn()}</td>
-												<td>${paramType(param)}</td>											
+												<td>
+													${paramType(param)}												
+												</td>											
 												<td>${param.getRequired()?string('yes', 'no')}</td>
 												<td>${param.getDescription()}</td>
 											</tr>								 					
@@ -151,7 +158,22 @@
 											<tr>																	
 												<td>${httpCode}</td>
 												<td>${response.getDescription()}</td>
-												<td>${responseType(response)}</td>											
+												<td>
+													<#if isResponsePrimitiveType(response)>
+														${responseTypeStr(response)}
+													</#if>
+													<#if isResponseDefType(response)>
+														<div class="panel panel-default">														
+															<div class="panel-heading">${responseTypeStr(response)}</div>																										
+															<table class="table table-condensed table-bordered">
+																<tr>
+																	<th>Title</th>
+																	<th>Description</th>
+																</tr>
+															</table>
+														</div>
+													</#if>																									
+												</td>											
 											</tr>								 					
 										</#list>
 										</#if>
@@ -171,8 +193,8 @@
 											
 			</#list>
 			</#if> 	
-		</div>		    
-	  </body>
+		</div>			
+		</body>
 	</html>
 
  
