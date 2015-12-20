@@ -1,68 +1,66 @@
 <#escape x as (x!)?html>
-	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-	<html>
-		<head>
-			<style type="text/css">
-				body {background-color: rgb(246,246,246); }
-				h1 { color: rgb(0,51,102); font-family: helvetica; font-size: 15pt; font-weight: bold; }
-				h2 { color: rgb(0,51,102); font-family: helvetica; font-size: 13pt; font-weight: bold; }
-				h3 { color: rgb(0,51,102); font-family: helvetica; font-size: 9pt; font-weight: bold; }
-				p { color: rgb(0,51,102); font-family: helvetica; font-size: 10pt; font-weight: normal; }
-				a { color: rgb(0,51,102); font-family: helvetica; font-size: 10pt; font-weight: normal; }
-				a.th { color: rgb(246,246,246); background-color: rgb(102,102,102); font-family: helvetica; font-size: 10pt; font-weight: bold; }
-				p.error { color: rgb(255,0,0); font-family: helvetica; font-size: 10pt; font-weight: normal; }
-				th.color { color: rgb(246,246,246); background-color: rgb(102,102,102); font-family: helvetica; font-size: 10pt; font-weight: bold; }
-				th.no_color { color: rgb(0,51,102); font-family: helvetica; font-size: 10pt; font-weight: bold; }
-				td.color { color: rgb(0,51,102); background-color: rgb(255,225,225); font-family: helvetica; font-size: 10pt; font-weight: normal; }
-				td.color_pre { color: rgb(0,51,102); background-color: rgb(255,225,225); font-family: helvetica; font-size: 10pt; font-weight: normal; white-space: pre }
-				td.no_color { color: rgb(0,51,102); font-family: helvetica; font-size: 10pt; font-weight: normal; }
-				td.no_color_pre { color: rgb(0,51,102); font-family: helvetica; font-size: 10pt; font-weight: normal; white-space: pre }
-				.methodBody {padding-top: 50px}
-			</style>
-		
-		
-			 
-			<title>
-				${sw.getTitle()}
-			</title>
-		</head>	
 
 
-		<body>
+	<!DOCTYPE html>
+	<html lang="en">
+	  <head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    
+	
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">		
+		<title>
+			${sw.getTitle()}
+		</title>
+	
+	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	  </head>
+	  <body>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>	    
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	    <div class="container">
 			<h1>${sw.getTitle()}</h1>			
 			
 			<hr/>
-			
-			
-			
-			
 			
 			<h2>Table of Contents</h2>		
 			<#if sw.swagger.getTags()??>
 			<#list sw.swagger.getTags() as tag>
 			
-			<h3>${tag.getName()}</h3>
-			<h4>${tag.getDescription()}</h4>
-									
-				<table cellspacing="1" cellpadding="1" border="0">
-					<tbody>
-							<tr valign="top">
-								<th align="left" class="color">Index</th>								
-								<th align="left" class="color">Path</th>																														
-							</tr>						
-						 				
+				<h3>${tag.getName()}</h3>
+				<h4>${tag.getDescription()}</h4>
+				
+				<div>						
+					<table class="table table-bordered table-condensed">
+						<tbody>
+								<tr>
+									<th>Index</th>								
+									<th>Path</th>		
+									<th>Summary</th>																												
+								</tr>						
+															 												
+								<#list sw.getOperationIdsOfTag(tag.getName()) as operationId>
+									<tr>
+										<td><a href="#${operationId.serialize()}">${operationId_index + 1}</a></td>																
+										<td><a href="#${operationId.serialize()}">${operationId.getMethod()} ${operationId.getPath()}</a></td>
+										<td>
+											<#if sw.getOperation(operationId)??>
+												${sw.getOperation(operationId).getSummary()}
+											</#if>											
+										</td>											 					
+									</tr>								
+								</#list>		
+	
 							
-							<#list sw.getOperationIdsOfTag(tag.getName()) as operationId>
-								<tr valign="top">
-									<td align="left" class="color"><a href="#${operationId.serialize()}">${operationId_index + 1}</a></td>				
-											
-									<td align="left" class="color"><a href="#${operationId.serialize()}">${operationId.getMethod()} ${operationId.getPath()}</a></td>							 					
-								</tr>								
-							</#list>		
-
-						
-					</tbody>
-				</table>	
+						</tbody>
+					</table>	
+				</div>	
 				
 			</#list>
 			</#if>
@@ -81,40 +79,89 @@
 						<!-- every operation -->
 						<h3><a name="${operationId.serialize()}">${operationId.getMethod()} ${operationId.getPath()}</a></h3>
 						<#assign operation = sw.getOperation(operationId)>
-						<h4>Summary: ${operation.getSummary()}</h4>
-						<h4>Notes: ${operation.getDescription()}</h4>
-						<h4>Consumes: ${displayList(operation.getConsumes())}</h4>					
-						<h4>Produces: ${displayList(operation.getProduces())}</h4>
 						
-						<h4>Parameters</h4>						
-						<table cellspacing="1" cellpadding="1" border="0">
-							<tbody>
-									<tr valign="top">
-										<th align="left" class="color">Name</th>										
-										<th align="left" class="color">In</th>	
-										<th align="left" class="color">Type</th>																					
-										<th align="left" class="color">Required</th>		
-										<th align="left" class="color">Description</th>																														
-									</tr>	
-									<#if operation.getParameters()??>
-		 							<#list operation.getParameters() as param>
-										<tr valign="top">																	
-											<td align="left" class="color">${param.getName()}</td>
-											<td align="left" class="color">${param.getIn()}</td>
-											<td align="left" class="color">${paramType(param)}</td>											
-											<td align="left" class="color">${param.getRequired()?string('yes', 'no')}</td>
-											<td align="left" class="color">${param.getDescription()}</td>
-										</tr>								 					
-									</#list>
-									</#if>
-								</tr>										
-																			
-							</tbody>						
+						
+						<div>						
+							<table class="table table-bordered table-condensed">
+								<tbody>
+										
+										<tr>
+											<td>Summary</td> <td>${operation.getSummary()}</td>
+										</tr>
+										<tr>											
+											<td>Notes</td> <td>${operation.getDescription()}</td>
+										</tr>
+										<tr>											
+											<td>Consumes</td> <td>${displayList(operation.getConsumes())}</td>
+										</tr>
+										<tr>											
+											<td>Produces</td> <td>${displayList(operation.getProduces())}</td>																																						 				
+										</tr>								
 												
-						</table>			
+			
+									
+								</tbody>
+							</table>	
+						</div>	
+														
+				 
+						<h4>Parameters</h4>		
+						
+						<div>				
+							<table class="table table-bordered">
+								<tbody>
+										<tr>
+											<th>Name</th>										
+											<th>Parameter Type</th>	
+											<th>Data Type</th>																					
+											<th>Required</th>		
+											<th>Description</th>																														
+										</tr>	
+										<#if operation.getParameters()??>
+			 							<#list operation.getParameters() as param>
+											<tr>																	
+												<td>${param.getName()}</td>
+												<td>${param.getIn()}</td>
+												<td>${paramType(param)}</td>											
+												<td>${param.getRequired()?string('yes', 'no')}</td>
+												<td>${param.getDescription()}</td>
+											</tr>								 					
+										</#list>
+										</#if>
+									</tr>										
+																				
+								</tbody>						
+													
+							</table>		
+						</div>	
 
 
-
+						<h4>Responses</h4>		
+						<div>				
+							<table class="table table-bordered">
+								<tbody>
+										<tr>
+											<th>HTTP Status Code</th>										
+											<th>Reason</th>	
+											<th>Response Model</th>																																																													
+										</tr>	
+										<#if operation.getResponses()??>
+			 							<#list operation.getResponses()?keys as httpCode>
+			 								<#assign response = operation.getResponses()[httpCode] >
+											<tr>																	
+												<td>${httpCode}</td>
+												<td>${response.getDescription()}</td>
+												<td>${responseType(response)}</td>											
+											</tr>								 					
+										</#list>
+										</#if>
+									</tr>										
+																				
+								</tbody>						
+													
+							</table>	
+						</div>
+		
 
 
 						<hr/>									
@@ -124,11 +171,11 @@
 											
 			</#list>
 			</#if> 	
-			
-			
-		</body>			
+		</div>		    
+	  </body>
+	</html>
 
-	</html>  
+ 
 </#escape>
 
 

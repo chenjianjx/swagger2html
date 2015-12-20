@@ -6,8 +6,11 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
+import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.RefProperty;
 import io.swagger.parser.SwaggerParser;
 
 import java.io.IOException;
@@ -41,7 +44,9 @@ public class Swagger2Html {
 		model.put("sw", sw);
 		model.put("displayList", new DisplayListMethodModel());
 		model.put("paramType", new ParamTypeMethodModel());
+		model.put("responseType", new ResponseTypeMethodModel());		
 		
+
 		try {
 			template.process(model, out);
 		} catch (TemplateException e) {
@@ -69,10 +74,34 @@ public class Swagger2Html {
 		public Object exec(List arguments) throws TemplateModelException {
 			String prop = "type";
 			return getParamProp(arguments, prop);
-
 		}
-
 	}
+
+	@SuppressWarnings("rawtypes")
+	private final class ResponseTypeMethodModel implements
+			TemplateMethodModelEx {
+		@Override
+		public Object exec(List arguments) throws TemplateModelException {
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			Response response = (Response) DeepUnwrap.unwrap(arg);
+			if (response == null) {
+				return null;
+			}
+
+			Property schema = response.getSchema();
+			if (schema == null) {
+				return null;
+			}
+
+			if (schema instanceof RefProperty) {
+				RefProperty rf = (RefProperty) schema;
+				return rf.getSimpleRef();
+			}
+			return schema.getType();
+		}
+	}
+
+	// TODO: response headers
 
 	private Object getParamProp(@SuppressWarnings("rawtypes") List arguments,
 			String prop) throws TemplateModelException {
