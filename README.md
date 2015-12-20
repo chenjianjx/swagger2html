@@ -2,11 +2,11 @@
 
 Converts swagger jsons to html documents which are readable by everybody.
 
-Swagger-Codegen already has a tool to generate html documents. However, it seems ugly and to be in lack of information.  
+__Swagger-Codegen already has a tool to generate html documents. However, it seems ugly and to be in lack of information. __
 
 ![petstore-by-swagger-cg](sample/petstore-by-swagger-cg.png)
 
-This project produces a neat one: 
+__This project produces a neat one:__
 
 ![petstore-by-s2h](sample/petstore-by-s2h.png)
 
