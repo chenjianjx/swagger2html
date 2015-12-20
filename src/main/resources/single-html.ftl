@@ -55,9 +55,7 @@
 											</#if>											
 										</td>											 					
 									</tr>								
-								</#list>		
-	
-							
+								</#list>										
 						</tbody>
 					</table>	
 				</div>	
@@ -105,9 +103,29 @@
 						</div>	
 														
 														
-						<#macro defProps>
+						<#macro showRefProperty property>
 							<tr>
+								<th>OGNL</th>
+								<th>Type</th>
+								<th>Description</th>
+								<th>Format</th>
+								<th>Required</th>
+								<th>ReadOnly</th>
 							</tr>
+							<#list refPropertyToModelRows(property) as row>
+								<tr>
+									<td>${row.getOgnlPath()}</td>
+									<td>${row.getTypeStr()}</td>
+									<td>${row.getProperty().getDescription()}</td>
+									<td>${row.getProperty().getFormat()}</td>
+									<td>${row.getProperty().getRequired()?string('Y', 'N')}</td>
+									<td>
+										<#if row.getProperty().getReadOnly()??>
+											${row.getProperty().getReadOnly()?string('Y', 'N')}
+										</#if>
+									</td>
+								</tr>
+							</#list>
 						</#macro>  															
 				 
 						<h4>Parameters</h4>		
@@ -128,9 +146,12 @@
 												<td>${param.getName()}</td>
 												<td>${param.getIn()}</td>
 												<td>
+												
+												
+												
 													${paramType(param)}												
 												</td>											
-												<td>${param.getRequired()?string('yes', 'no')}</td>
+												<td>${param.getRequired()?string('Y', 'N')}</td>
 												<td>${param.getDescription()}</td>
 											</tr>								 					
 										</#list>
@@ -150,7 +171,7 @@
 										<tr>
 											<th>HTTP Status Code</th>										
 											<th>Reason</th>	
-											<th>Response Model</th>																																																													
+											<th>Response Type</th>																																																													
 										</tr>	
 										<#if operation.getResponses()??>
 			 							<#list operation.getResponses()?keys as httpCode>
@@ -166,10 +187,7 @@
 														<div class="panel panel-default">														
 															<div class="panel-heading">${responseTypeStr(response)}</div>																										
 															<table class="table table-condensed table-bordered">
-																<tr>
-																	<th>Title</th>
-																	<th>Description</th>
-																</tr>
+																<@showRefProperty property=response.getSchema()/>
 															</table>
 														</div>
 													</#if>																									
@@ -186,7 +204,7 @@
 		
 
 
-						<hr/>									
+															
 					</#list>			
 					
 					

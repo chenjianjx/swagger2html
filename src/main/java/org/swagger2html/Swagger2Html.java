@@ -6,6 +6,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
+import io.swagger.models.Model;
 import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
@@ -15,6 +16,7 @@ import io.swagger.parser.SwaggerParser;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +41,15 @@ public class Swagger2Html {
 		Template template = freemarkerFactory
 				.getClasspathTemplate("/single-html.ftl");
 		Map<String, Object> model = new HashMap<String, Object>();
-		Swagger originalSwagger = swaggerParser.read(swaggerUrl);
-		SwaggerWrapper sw = new SwaggerWrapper(originalSwagger);
+		Swagger swagger = swaggerParser.read(swaggerUrl);
+		SwaggerWrapper sw = new SwaggerWrapper(swagger);
 		model.put("sw", sw);
 		model.put("displayList", new DisplayList());
 		model.put("paramType", new ParamType());
-		model.put("isResponsePrimitiveType", new IsResponsePrimitiveType());
-		model.put("isResponseDefType", new IsResponseDefType());
-
+		model.put("isResponsePrimitiveType", new IsResponseValidPrimitiveType());
+		model.put("isResponseDefType", new IsResponseValidDefType(swagger));
 		model.put("responseTypeStr", new ReponseTypeString());
+		model.put("refPropertyToModelRows", new RefPropertyToModelRows(swagger));
 
 		try {
 			template.process(model, out);
@@ -88,13 +90,60 @@ public class Swagger2Html {
 			if (response == null) {
 				return null;
 			}
-
 			Property schema = response.getSchema();
 			return propertyTypeString(schema);
 		}
 	}
-	
-	private Object propertyTypeString(Property property) {
+
+	@SuppressWarnings("rawtypes")
+	private final class RefPropertyToModelRows implements TemplateMethodModelEx {
+
+		private Swagger swagger;
+
+		public RefPropertyToModelRows(Swagger swagger) {
+			this.swagger = swagger;
+		}
+
+		@Override
+		public Object exec(List arguments) throws TemplateModelException {
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			RefProperty refProp = (RefProperty) DeepUnwrap.unwrap(arg);
+			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
+			if (refProp == null) {
+				return rows;
+			}
+			toRows(refProp, "$", rows);
+			return rows;
+		}
+
+		private void toRows(Property property, String ognlPath,
+				List<ModelRow> rows) {
+			ModelRow row = new ModelRow();
+			String type = propertyTypeString(property);
+
+			row.setOgnlPath(ognlPath);
+			row.setProperty(property);
+			row.setTypeStr(type);
+			rows.add(row);
+
+			if (isPropertyValidPrimitiveType(property)) {
+				return; // no more
+			}
+			if (isPropertyValidDefType(swagger, property) && type != null) {
+				Model model = swagger.getDefinitions().get(type);
+				Map<String, Property> childProperties = model.getProperties();
+				for (Map.Entry<String, Property> entry : childProperties
+						.entrySet()) {
+					String childPath = entry.getKey();
+					Property childProperty = entry.getValue();
+					toRows(childProperty, ognlPath + "." + childPath, rows);
+				}
+			}
+
+		}
+	}
+
+	private String propertyTypeString(Property property) {
 		if (property == null) {
 			return null;
 		}
@@ -107,7 +156,13 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class IsResponseDefType implements TemplateMethodModelEx {
+	private final class IsResponseValidDefType implements TemplateMethodModelEx {
+		private Swagger swagger;
+
+		public IsResponseValidDefType(Swagger swagger) {
+			this.swagger = swagger;
+		}
+
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
@@ -117,14 +172,14 @@ public class Swagger2Html {
 			}
 
 			Property schema = response.getSchema();
-			return isPropertyDefType(schema);
+			return isPropertyValidDefType(swagger, schema);
 
 		}
 
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class IsResponsePrimitiveType implements
+	private final class IsResponseValidPrimitiveType implements
 			TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
@@ -135,12 +190,12 @@ public class Swagger2Html {
 			}
 
 			Property schema = response.getSchema();
-			return isPropertyPrimitiveType(schema);
+			return isPropertyValidPrimitiveType(schema);
 		}
 
 	}
 
-	private Object isPropertyDefType(Property property) {
+	private boolean isPropertyValidDefType(Swagger swagger, Property property) {
 		if (property == null) {
 			return false;
 		}
@@ -150,14 +205,21 @@ public class Swagger2Html {
 		}
 
 		RefProperty rf = (RefProperty) property;
-		return rf.getSimpleRef() != null;
+		String simpleRef = rf.getSimpleRef();
+		if (simpleRef == null) {
+			return false;
+		}
+		if (swagger.getDefinitions() == null) {
+			return false;
+		}
+		boolean containsRef = swagger.getDefinitions().containsKey(simpleRef);
+		return containsRef;
 	}
 
-	private Object isPropertyPrimitiveType(Property schema) {
+	private boolean isPropertyValidPrimitiveType(Property schema) {
 		if (schema == null) {
 			return false;
 		}
-
 		if (schema instanceof RefProperty) {
 			return false;
 		}
@@ -173,7 +235,7 @@ public class Swagger2Html {
 		if (param == null) {
 			return null;
 		}
-		return (String) getProperty(param, prop);
+		return getProperty(param, prop);
 	}
 
 	private Object getProperty(Object obj, String prop) {
@@ -182,6 +244,54 @@ public class Swagger2Html {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/**
+	 * one row, one property of a model
+	 * 
+	 * @author chenjianjx@gmail.com
+	 *
+	 */
+	public static class ModelRow {
+		/**
+		 * something like "$.father.son,  the root will be "$". not null
+		 */
+		private String ognlPath;
+
+		/**
+		 * may be null
+		 */
+		private String typeStr;
+
+		/**
+		 * will not be null
+		 */
+		private Property property;
+
+		public String getOgnlPath() {
+			return ognlPath;
+		}
+
+		public void setOgnlPath(String ognlPath) {
+			this.ognlPath = ognlPath;
+		}
+
+		public String getTypeStr() {
+			return typeStr;
+		}
+
+		public void setTypeStr(String type) {
+			this.typeStr = type;
+		}
+
+		public Property getProperty() {
+			return property;
+		}
+
+		public void setProperty(Property property) {
+			this.property = property;
+		}
+
 	}
 
 }
