@@ -10,7 +10,8 @@ __This project produces a neat one:__
 
 ![petstore-by-s2h](sample/petstore-by-s2h.png)
 
-Check the full html [here](sample/petstore-by-s2h.html). 
+Check the full html [here](https://rawgit.com/chenjianjx/swagger2html/master/sample/petstore-by-s2h.html). 
+
 
 # How to run
 
