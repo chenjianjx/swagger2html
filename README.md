@@ -37,6 +37,8 @@ Just call class ```` org.swagger2html.Swagger2Html ```` .
 Note: this project has not been deployed to any public maven repository yet. So you have to "mvn install" this project.
  
 
+# Still Under Construction
 
+It hasn't gone through all possible cases or covered every piece of meta-data.   Please submit issues and pull requests. 
 
 
