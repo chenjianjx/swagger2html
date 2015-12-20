@@ -7,8 +7,11 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
 import io.swagger.models.Model;
+import io.swagger.models.RefModel;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
+import io.swagger.models.parameters.RefParameter;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.parser.SwaggerParser;
@@ -44,14 +47,10 @@ public class Swagger2Html {
 		SwaggerWrapper sw = new SwaggerWrapper(swagger);
 		model.put("sw", sw);
 		model.put("displayList", new DisplayList());
-		model.put("paramType", new ParamType());
-		model.put("isPropertyPrimitiveType",
-				new IsPropertyValidPrimitiveTypeTmme());
-		model.put("isPropertyDefType", new IsPropertyValidDefTypeTmme(swagger));
+		model.put("paramTypeStr", new ParamTypeStringTmme());
+		model.put("paramToModelRows", new ParameterToModelRowsTmme(swagger));
 		model.put("propertyTypeStr", new PropertyTypeStringTmme());
-		model.put("refPropertyToModelRows", new RefPropertyToModelRowsTmme(
-				swagger));
-
+		model.put("propertyToModelRows", new PropertyToModelRowsTmme(swagger));
 		try {
 			template.process(model, out);
 		} catch (TemplateException e) {
@@ -74,12 +73,38 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class ParamType implements TemplateMethodModelEx {
+	private final class ParamTypeStringTmme implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
-			String prop = "type";
-			return getParamProp(arguments, prop);
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			Parameter param = (Parameter) DeepUnwrap.unwrap(arg);
+			return getParamTypeString(param);
 		}
+
+	}
+
+	private String getParamTypeString(Parameter param) {
+		if (param == null) {
+			return null;
+		}
+		if (param instanceof BodyParameter) {
+			BodyParameter bp = (BodyParameter) param;
+			Model schema = bp.getSchema();
+
+			if (schema == null) {
+				return null;
+			}
+			if (!(schema instanceof RefModel)) {
+				return null;
+			}
+			RefModel rm = (RefModel) schema;
+			return rm == null ? null : rm.getSimpleRef();
+		}
+		if (param instanceof RefParameter) {
+			RefParameter rp = (RefParameter) param;
+			return rp.getSimpleRef();
+		}
+		return (String) getBeanProperty(param, "type");
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -93,52 +118,108 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class RefPropertyToModelRowsTmme implements
+	private final class ParameterToModelRowsTmme implements
 			TemplateMethodModelEx {
 
 		private Swagger swagger;
 
-		public RefPropertyToModelRowsTmme(Swagger swagger) {
+		public ParameterToModelRowsTmme(Swagger swagger) {
+			this.swagger = swagger;
+		}
+
+		@Override
+		public Object exec(List arguments) throws TemplateModelException {
+			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
+
+			TemplateModel arg = (TemplateModel) arguments.get(0);
+			Parameter param = (Parameter) DeepUnwrap.unwrap(arg);
+			if (param == null) {
+				return rows;
+			}
+			String type = getParamTypeString(param);
+			if (type == null) {
+				return rows;
+			}
+
+			if (swagger.getDefinitions() == null) {
+				return rows;
+			}
+
+			if (param instanceof BodyParameter || param instanceof RefParameter) {
+				Model model = swagger.getDefinitions().get(type);
+				if (model == null) {
+					return rows;
+				}
+				modelPropertiesToRows(model.getProperties(), swagger, null,
+						rows);
+				return rows;
+			}
+			return rows;
+		}
+
+	}
+
+	@SuppressWarnings("rawtypes")
+	private final class PropertyToModelRowsTmme implements
+			TemplateMethodModelEx {
+		private Swagger swagger;
+
+		public PropertyToModelRowsTmme(Swagger swagger) {
 			this.swagger = swagger;
 		}
 
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
-			RefProperty refProp = (RefProperty) DeepUnwrap.unwrap(arg);
+			Property prop = (Property) DeepUnwrap.unwrap(arg);
 			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
-			if (refProp == null) {
+			if (prop == null) {
 				return rows;
 			}
-			toRows(refProp, "$", rows);
-			return rows;
+
+			if (isPropertyDefType(swagger, prop)) {
+				String type = propertyTypeString(prop);
+				Model model = swagger.getDefinitions().get(type);
+				Map<String, Property> childProperties = model.getProperties();
+				modelPropertiesToRows(childProperties, swagger, null, rows);
+				return rows;
+			} else {
+				return rows;
+			}
 		}
 
-		private void toRows(Property property, String ognlPath,
-				List<ModelRow> rows) {
-			ModelRow row = new ModelRow();
+	}
+
+	private void modelPropertiesToRows(Map<String, Property> properties,
+			Swagger swagger, String parentPath, List<ModelRow> rows) {
+
+		if (properties == null) {
+			return;
+		}
+
+		for (Map.Entry<String, Property> entry : properties.entrySet()) {
+			String ognlPath = parentPath == null ? entry.getKey() : (parentPath
+					+ "." + entry.getKey());
+			Property property = entry.getValue();
 			String type = propertyTypeString(property);
 
+			ModelRow row = new ModelRow();
 			row.setOgnlPath(ognlPath);
 			row.setProperty(property);
 			row.setTypeStr(type);
+
 			rows.add(row);
 
-			if (isPropertyValidPrimitiveType(property)) {
-				return; // no more
+			if (isPropertyPrimitiveType(property)) {
+				continue; // no more
 			}
-			if (isPropertyValidDefType(swagger, property) && type != null) {
+			if (isPropertyDefType(swagger, property) && type != null) {
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
-				for (Map.Entry<String, Property> entry : childProperties
-						.entrySet()) {
-					String childPath = entry.getKey();
-					Property childProperty = entry.getValue();
-					toRows(childProperty, ognlPath + "." + childPath, rows);
-				}
+				modelPropertiesToRows(childProperties, swagger, ognlPath, rows);
 			}
-
 		}
+
 	}
 
 	private String propertyTypeString(Property property) {
@@ -153,59 +234,22 @@ public class Swagger2Html {
 		return property.getType();
 	}
 
-	@SuppressWarnings("rawtypes")
-	private final class IsPropertyValidDefTypeTmme implements
-			TemplateMethodModelEx {
-		private Swagger swagger;
-
-		public IsPropertyValidDefTypeTmme(Swagger swagger) {
-			this.swagger = swagger;
-		}
-
-		@Override
-		public Object exec(List arguments) throws TemplateModelException {
-			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Property schema = (Property) DeepUnwrap.unwrap(arg);
-			return isPropertyValidDefType(swagger, schema);
-
-		}
-
-	}
-
-	@SuppressWarnings("rawtypes")
-	private final class IsPropertyValidPrimitiveTypeTmme implements
-			TemplateMethodModelEx {
-		@Override
-		public Object exec(List arguments) throws TemplateModelException {
-			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Property schema = (Property) DeepUnwrap.unwrap(arg);
-			return isPropertyValidPrimitiveType(schema);
-		}
-
-	}
-
-	private boolean isPropertyValidDefType(Swagger swagger, Property property) {
+	private boolean isPropertyDefType(Swagger swagger, Property property) {
 		if (property == null) {
 			return false;
 		}
-
 		if (!(property instanceof RefProperty)) {
 			return false;
 		}
-
 		RefProperty rf = (RefProperty) property;
 		String simpleRef = rf.getSimpleRef();
 		if (simpleRef == null) {
 			return false;
 		}
-		if (swagger.getDefinitions() == null) {
-			return false;
-		}
-		boolean containsRef = swagger.getDefinitions().containsKey(simpleRef);
-		return containsRef;
+		return true;
 	}
 
-	private boolean isPropertyValidPrimitiveType(Property schema) {
+	private boolean isPropertyPrimitiveType(Property schema) {
 		if (schema == null) {
 			return false;
 		}
@@ -217,17 +261,7 @@ public class Swagger2Html {
 
 	// TODO: response headers
 
-	private Object getParamProp(@SuppressWarnings("rawtypes") List arguments,
-			String prop) throws TemplateModelException {
-		TemplateModel arg = (TemplateModel) arguments.get(0);
-		Parameter param = (Parameter) DeepUnwrap.unwrap(arg);
-		if (param == null) {
-			return null;
-		}
-		return getProperty(param, prop);
-	}
-
-	private Object getProperty(Object obj, String prop) {
+	private Object getBeanProperty(Object obj, String prop) {
 		try {
 			return PropertyUtils.getProperty(obj, prop);
 		} catch (Exception e) {

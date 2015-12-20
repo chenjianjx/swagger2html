@@ -19,7 +19,7 @@ public class S2hMain {
 
 		if (args == null || args.length < 2) {
 			System.err
-					.println("The command is:  s2h swagger-json-url /path/to/your/doc.html");
+					.println("The command is:  s2h.sh swagger-json-url /path/to/your/doc.html");
 			return;
 		}
 

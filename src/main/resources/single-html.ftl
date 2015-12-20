@@ -1,4 +1,33 @@
 <#escape x as (x!)?html>
+ 							
+		<#macro showModelRows rows>	 
+			<#if (rows?size > 0) >
+				<table class="table table-condensed table-bordered model-rows-table">																								
+					<tr>
+						<th>Property</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Format</th>
+						<th>Required</th>
+						<th>ReadOnly</th>
+					</tr>
+					<#list rows as row>
+						<tr>
+							<td>${row.getOgnlPath()}</td>
+							<td>${row.getTypeStr()}</td>
+							<td>${row.getProperty().getDescription()}</td>
+							<td>${row.getProperty().getFormat()}</td>
+							<td>${row.getProperty().getRequired()?string('Y', 'N')}</td>
+							<td>
+								<#if row.getProperty().getReadOnly()??>
+									${row.getProperty().getReadOnly()?string('Y', 'N')}
+								</#if>
+							</td>
+						</tr>										
+					</#list>
+				</table>									
+			</#if>
+		</#macro>  		
 
 
 	<!DOCTYPE html>
@@ -9,7 +38,63 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 	
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">	
+		
+		<style type="text/css">
+			.summary-table tr td:nth-child(1){
+    			width:10%;
+			}
+			.summary-table tr td:nth-child(2){
+    			width:30%;
+			}			
+
+			.operation-intro-table tr td:nth-child(1){
+    			width:20%;
+			}			
+			
+			.param-table tr td:nth-child(1){
+				width:10%;
+			}
+			.param-table tr td:nth-child(2){				
+				width:10%;
+			}
+			.param-table tr td:nth-child(3){
+				width:60%;
+			}
+			.param-table tr td:nth-child(4){
+				width:10%;
+			}													
+						
+			.response-table tr td:nth-child(1){
+				width:10%;
+			}			
+			
+			.response-table tr td:nth-child(2){				
+				width:20%;
+			}		
+			
+			.model-rows-table tr td:nth-child(1){
+				width:40%;
+			} 
+			.model-rows-table tr td:nth-child(2){
+				width:5%;
+			}		
+			.model-rows-table tr td:nth-child(3){
+				width:40%;
+			}		
+			.model-rows-table tr td:nth-child(4){
+				width:5%;
+			}		
+			.model-rows-table tr td:nth-child(5){
+				width:5%;
+			}																	
+			.model-rows-table tr td:nth-child(6){
+				width:5%;
+			}					
+ 						
+			
+		</style>
+			
 		<title>
 			${sw.getTitle()}
 		</title>
@@ -37,7 +122,7 @@
 				<h4>${tag.getDescription()}</h4>
 				
 				<div>						
-					<table class="table table-bordered table-condensed">
+					<table class="table table-bordered table-condensed summary-table">
 						<tbody>
 								<tr>
 									<th>Index</th>								
@@ -76,24 +161,22 @@
 					
 						<!-- every operation -->
 						<h3><a name="${operationId.serialize()}">${operationId.getMethod()} ${operationId.getPath()}</a></h3>
-						<#assign operation = sw.getOperation(operationId)>
-						
 						
 						<div>						
-							<table class="table table-bordered table-condensed">
+							<table class="table table-bordered table-condensed operation-intro-table">
 								<tbody>
 										
 										<tr>
-											<td>Summary</td> <td>${operation.getSummary()}</td>
+											<td>Summary</td> <td>${sw.getOperation(operationId).getSummary()}</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td>${operation.getDescription()}</td>
+											<td>Notes</td> <td>${sw.getOperation(operationId).getDescription()}</td>
 										</tr>
 										<tr>											
-											<td>Consumes</td> <td>${displayList(operation.getConsumes())}</td>
+											<td>Consumes</td> <td>${displayList(sw.getOperation(operationId).getConsumes())}</td>
 										</tr>
 										<tr>											
-											<td>Produces</td> <td>${displayList(operation.getProduces())}</td>																																						 				
+											<td>Produces</td> <td>${displayList(sw.getOperation(operationId).getProduces())}</td>																																						 				
 										</tr>								
 												
 			
@@ -101,37 +184,13 @@
 								</tbody>
 							</table>	
 						</div>	
-														
-														
-						<#macro showRefProperty property>
-							<tr>
-								<th>OGNL</th>
-								<th>Type</th>
-								<th>Description</th>
-								<th>Format</th>
-								<th>Required</th>
-								<th>ReadOnly</th>
-							</tr>
-							<#list refPropertyToModelRows(property) as row>
-								<tr>
-									<td>${row.getOgnlPath()}</td>
-									<td>${row.getTypeStr()}</td>
-									<td>${row.getProperty().getDescription()}</td>
-									<td>${row.getProperty().getFormat()}</td>
-									<td>${row.getProperty().getRequired()?string('Y', 'N')}</td>
-									<td>
-										<#if row.getProperty().getReadOnly()??>
-											${row.getProperty().getReadOnly()?string('Y', 'N')}
-										</#if>
-									</td>
-								</tr>
-							</#list>
-						</#macro>  															
-				 
-						<h4>Parameters</h4>		
-						
+									
+					<h4>Parameters</h4>	
+								
+					<#if (sw.getOperation(operationId).getParameters()??  && (sw.getOperation(operationId).getParameters()?size > 0)) >
+			 																					
 						<div>				
-							<table class="table table-bordered">
+							<table class="table table-bordered param-table">
 								<tbody>
 										<tr>
 											<th>Name</th>										
@@ -140,60 +199,56 @@
 											<th>Required</th>		
 											<th>Description</th>																														
 										</tr>	
-										<#if operation.getParameters()??>
-			 							<#list operation.getParameters() as param>
+								<#list sw.getOperation(operationId).getParameters() as param>
 											<tr>																	
 												<td>${param.getName()}</td>
 												<td>${param.getIn()}</td>
 												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">${paramTypeStr(param)}</div>														
+														<@showModelRows rows=paramToModelRows(param)/>																																								
+													</div>																									
 												
-												
-												
-													${paramType(param)}												
+																								
 												</td>											
 												<td>${param.getRequired()?string('Y', 'N')}</td>
 												<td>${param.getDescription()}</td>
 											</tr>								 					
-										</#list>
-										</#if>
-									</tr>										
+
+									</tr>
+								</#list>												
 																				
 								</tbody>						
 													
 							</table>		
 						</div>	
-
+										
+					<#else>
+						No Parameters
+					</#if>						
+						
 
 						<h4>Responses</h4>		
 						<div>				
-							<table class="table table-bordered">
+							<table class="table table-bordered response-table">
 								<tbody>
 										<tr>
 											<th>HTTP Status Code</th>										
 											<th>Reason</th>	
 											<th>Response Type</th>																																																													
 										</tr>	
-										<#if operation.getResponses()??>
-			 							<#list operation.getResponses()?keys as httpCode>
-			 								<#assign response = operation.getResponses()[httpCode] >
+										<#if sw.getOperation(operationId).getResponses()??>
+			 							<#list sw.getOperation(operationId).getResponses()?keys as httpCode>
+			 								
 											<tr>																	
 												<td>${httpCode}</td>
-												<td>${response.getDescription()}</td>
+												<td>${sw.getOperation(operationId).getResponses()[httpCode] .getDescription()}</td>
 												<td>
-													<#if response.getSchema()??>
-														<#assign property = response.getSchema()/>
-														
-														<#if isPropertyPrimitiveType(property)>
-															${propertyTypeStr(property)}
-														</#if>
-														<#if isPropertyDefType(property)>
+													<#if sw.getOperation(operationId).getResponses()[httpCode].getSchema()??>													
 															<div class="panel panel-default">														
-																<div class="panel-heading">${propertyTypeStr(property)}</div>																										
-																<table class="table table-condensed table-bordered">
-																	<@showRefProperty property=property/>
-																</table>
-															</div>
-														</#if>	
+																<div class="panel-heading">${propertyTypeStr(sw.getOperation(operationId).getResponses()[httpCode].getSchema())}</div>																
+																<@showModelRows rows=propertyToModelRows(sw.getOperation(operationId).getResponses()[httpCode].getSchema())/>																																								
+															</div>														 
 													</#if>																								
 												</td>											
 											</tr>								 					
