@@ -202,5 +202,5 @@ public class SwaggerWrapper {
 			return this.serialize().compareTo(obj.serialize());
 		}
 
-	}
+	}	
 }

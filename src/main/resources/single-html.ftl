@@ -180,17 +180,21 @@
 												<td>${httpCode}</td>
 												<td>${response.getDescription()}</td>
 												<td>
-													<#if isResponsePrimitiveType(response)>
-														${responseTypeStr(response)}
-													</#if>
-													<#if isResponseDefType(response)>
-														<div class="panel panel-default">														
-															<div class="panel-heading">${responseTypeStr(response)}</div>																										
-															<table class="table table-condensed table-bordered">
-																<@showRefProperty property=response.getSchema()/>
-															</table>
-														</div>
-													</#if>																									
+													<#if response.getSchema()??>
+														<#assign property = response.getSchema()/>
+														
+														<#if isPropertyPrimitiveType(property)>
+															${propertyTypeStr(property)}
+														</#if>
+														<#if isPropertyDefType(property)>
+															<div class="panel panel-default">														
+																<div class="panel-heading">${propertyTypeStr(property)}</div>																										
+																<table class="table table-condensed table-bordered">
+																	<@showRefProperty property=property/>
+																</table>
+															</div>
+														</#if>	
+													</#if>																								
 												</td>											
 											</tr>								 					
 										</#list>

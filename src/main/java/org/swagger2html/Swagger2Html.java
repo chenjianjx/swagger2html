@@ -7,7 +7,6 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
 import io.swagger.models.Model;
-import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.Property;
@@ -46,10 +45,12 @@ public class Swagger2Html {
 		model.put("sw", sw);
 		model.put("displayList", new DisplayList());
 		model.put("paramType", new ParamType());
-		model.put("isResponsePrimitiveType", new IsResponseValidPrimitiveType());
-		model.put("isResponseDefType", new IsResponseValidDefType(swagger));
-		model.put("responseTypeStr", new ReponseTypeString());
-		model.put("refPropertyToModelRows", new RefPropertyToModelRows(swagger));
+		model.put("isPropertyPrimitiveType",
+				new IsPropertyValidPrimitiveTypeTmme());
+		model.put("isPropertyDefType", new IsPropertyValidDefTypeTmme(swagger));
+		model.put("propertyTypeStr", new PropertyTypeStringTmme());
+		model.put("refPropertyToModelRows", new RefPropertyToModelRowsTmme(
+				swagger));
 
 		try {
 			template.process(model, out);
@@ -82,25 +83,22 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class ReponseTypeString implements TemplateMethodModelEx {
+	private final class PropertyTypeStringTmme implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Response response = (Response) DeepUnwrap.unwrap(arg);
-			if (response == null) {
-				return null;
-			}
-			Property schema = response.getSchema();
+			Property schema = (Property) DeepUnwrap.unwrap(arg);
 			return propertyTypeString(schema);
 		}
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class RefPropertyToModelRows implements TemplateMethodModelEx {
+	private final class RefPropertyToModelRowsTmme implements
+			TemplateMethodModelEx {
 
 		private Swagger swagger;
 
-		public RefPropertyToModelRows(Swagger swagger) {
+		public RefPropertyToModelRowsTmme(Swagger swagger) {
 			this.swagger = swagger;
 		}
 
@@ -156,22 +154,18 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class IsResponseValidDefType implements TemplateMethodModelEx {
+	private final class IsPropertyValidDefTypeTmme implements
+			TemplateMethodModelEx {
 		private Swagger swagger;
 
-		public IsResponseValidDefType(Swagger swagger) {
+		public IsPropertyValidDefTypeTmme(Swagger swagger) {
 			this.swagger = swagger;
 		}
 
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Response response = (Response) DeepUnwrap.unwrap(arg);
-			if (response == null) {
-				return false;
-			}
-
-			Property schema = response.getSchema();
+			Property schema = (Property) DeepUnwrap.unwrap(arg);
 			return isPropertyValidDefType(swagger, schema);
 
 		}
@@ -179,17 +173,12 @@ public class Swagger2Html {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private final class IsResponseValidPrimitiveType implements
+	private final class IsPropertyValidPrimitiveTypeTmme implements
 			TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Response response = (Response) DeepUnwrap.unwrap(arg);
-			if (response == null) {
-				return false;
-			}
-
-			Property schema = response.getSchema();
+			Property schema = (Property) DeepUnwrap.unwrap(arg);
 			return isPropertyValidPrimitiveType(schema);
 		}
 
