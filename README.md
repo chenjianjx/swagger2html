@@ -4,11 +4,11 @@ Converts swagger jsons to html documents which are readable by everybody.
 
 Swagger-Codegen already has a tool to generate html documents. However, it seems ugly and to be in lack of information.  
 
-!(sample/pegstore-by-swagger-cg.png)
+![petstore-by-swagger-cg](sample/petstore-by-swagger-cg.png)
 
 This project produces a neat one: 
 
-!(sample/petstore-by-s2h.png)
+![petstore-by-s2h](sample/petstore-by-s2h.png)
 
 Check the full html [here](sample/petstore-by-s2h.html). 
 
@@ -28,7 +28,7 @@ unzip target/swagger2html-some-version-jarset.zip -d /path/to/your/dir
 ````
 
 ## Run it inside an web app
-Just call class org.swagger2html.Swagger2Html . 
+Just call class ```` org.swagger2html.Swagger2Html ```` . 
 
 Note: this project has not been deployed to any public maven repository yet. So you have to "mvn install" this project.
  
