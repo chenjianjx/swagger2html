@@ -187,21 +187,33 @@ public class Swagger2Html {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Property prop = (Property) DeepUnwrap.unwrap(arg);
+			Property property = (Property) DeepUnwrap.unwrap(arg);
 			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
-			if (prop == null) {
+			if (property == null) {
 				return rows;
 			}
 
-			if (isPropertyRefType(swagger, prop)) {
-				String type = propertyTypeString(prop);
+			if (property instanceof ArrayProperty) {
+				Property itemProperty = ((ArrayProperty) property).getItems();
+				if (isPropertyRefType(swagger, itemProperty)) {
+					Model model = swagger.getDefinitions().get(
+							propertyTypeString(itemProperty));
+					Map<String, Property> childProperties = model
+							.getProperties();
+					modelPropertiesToRows(childProperties, swagger, "[]", rows);
+					return rows;
+				}
+			}
+
+			if (isPropertyRefType(swagger, property)) {
+				String type = propertyTypeString(property);
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
 				modelPropertiesToRows(childProperties, swagger, null, rows);
 				return rows;
-			} else {
-				return rows;
 			}
+			return rows;
+
 		}
 
 	}
@@ -226,17 +238,19 @@ public class Swagger2Html {
 				row.setProperty(property);
 				row.setTypeStr(type);
 				rows.add(row);
-				
+
 				Property itemProperty = ((ArrayProperty) property).getItems();
-				
-				if (isPropertyRefType(swagger, itemProperty) ){
+
+				if (isPropertyRefType(swagger, itemProperty)) {
 					Model model = swagger.getDefinitions().get(
 							propertyTypeString(itemProperty));
-					Map<String, Property> childProperties = model.getProperties();
-					modelPropertiesToRows(childProperties, swagger, ognlPath, rows);
+					Map<String, Property> childProperties = model
+							.getProperties();
+					modelPropertiesToRows(childProperties, swagger, ognlPath,
+							rows);
 					continue;
 				}
- 
+
 			}
 
 			ModelRow row = new ModelRow();
