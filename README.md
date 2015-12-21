@@ -31,7 +31,7 @@ unzip target/swagger2html-some-version-jarset.zip -d /path/to/your/dir
 
 ````
 
-## Run it inside an web app
+## Run it inside your application
 
 In your pom.xml, add the following: 
 
@@ -58,10 +58,8 @@ In your pom.xml, add the following:
 
 
 
-Just call class ```` org.swagger2html.Swagger2Html ```` . 
+Then call class ```` org.swagger2html.Swagger2Html.toHtml(url, output) ```` . 
 
-Note: this project has not been deployed to any public maven repository yet. So you have to "mvn install" this project.
- 
 
 # Still Under Construction
 
