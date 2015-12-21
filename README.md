@@ -32,6 +32,32 @@ unzip target/swagger2html-some-version-jarset.zip -d /path/to/your/dir
 ````
 
 ## Run it inside an web app
+
+In your pom.xml, add the following: 
+
+````
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		...
+	</repositories>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.chenjianjx</groupId>
+			<artifactId>swagger2html</artifactId>
+			<version>1.0</version>
+		</dependency>
+		...
+	</dependencies>	
+
+````
+
+
+
 Just call class ```` org.swagger2html.Swagger2Html ```` . 
 
 Note: this project has not been deployed to any public maven repository yet. So you have to "mvn install" this project.
