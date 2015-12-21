@@ -6,12 +6,14 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
+import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.RefModel;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.RefParameter;
+import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.parser.SwaggerParser;
@@ -94,17 +96,31 @@ public class Swagger2Html {
 			if (schema == null) {
 				return null;
 			}
-			if (!(schema instanceof RefModel)) {
-				return null;
-			}
-			RefModel rm = (RefModel) schema;
-			return rm == null ? null : rm.getSimpleRef();
+			return getModelTypeString(schema);
 		}
 		if (param instanceof RefParameter) {
 			RefParameter rp = (RefParameter) param;
 			return rp.getSimpleRef();
 		}
 		return (String) getBeanProperty(param, "type");
+	}
+
+	private String getModelTypeString(Model model) {
+		if (model instanceof RefModel) {
+			RefModel rm = (RefModel) model;
+			return rm.getSimpleRef();
+		}
+
+		if (model instanceof ArrayModel) {
+			ArrayModel am = (ArrayModel) model;
+			String arrayType = am.getType(); // should be "array"
+			Property itemProperty = am.getItems();
+			String propertyTypeString = propertyTypeString(itemProperty);
+			return arrayType + "["
+					+ StringUtils.defaultString(propertyTypeString) + "]";
+		}
+
+		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -177,7 +193,7 @@ public class Swagger2Html {
 				return rows;
 			}
 
-			if (isPropertyDefType(swagger, prop)) {
+			if (isPropertyRefType(swagger, prop)) {
 				String type = propertyTypeString(prop);
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
@@ -203,21 +219,38 @@ public class Swagger2Html {
 			Property property = entry.getValue();
 			String type = propertyTypeString(property);
 
+			if (property instanceof ArrayProperty) {
+				ognlPath = ognlPath + "[]";
+				ModelRow row = new ModelRow();
+				row.setOgnlPath(ognlPath);
+				row.setProperty(property);
+				row.setTypeStr(type);
+				rows.add(row);
+				
+				Property itemProperty = ((ArrayProperty) property).getItems();
+				
+				if (isPropertyRefType(swagger, itemProperty) ){
+					Model model = swagger.getDefinitions().get(
+							propertyTypeString(itemProperty));
+					Map<String, Property> childProperties = model.getProperties();
+					modelPropertiesToRows(childProperties, swagger, ognlPath, rows);
+					continue;
+				}
+ 
+			}
+
 			ModelRow row = new ModelRow();
 			row.setOgnlPath(ognlPath);
 			row.setProperty(property);
 			row.setTypeStr(type);
-
 			rows.add(row);
 
-			if (isPropertyPrimitiveType(property)) {
-				continue; // no more
-			}
-			if (isPropertyDefType(swagger, property) && type != null) {
+			if (isPropertyRefType(swagger, property) && type != null) {
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
 				modelPropertiesToRows(childProperties, swagger, ognlPath, rows);
 			}
+			continue;
 		}
 
 	}
@@ -231,10 +264,20 @@ public class Swagger2Html {
 			RefProperty rf = (RefProperty) property;
 			return rf.getSimpleRef();
 		}
+
+		if (property instanceof ArrayProperty) {
+			ArrayProperty app = (ArrayProperty) property;
+			String arrayType = app.getType(); // should be "array"
+			Property itemProperty = app.getItems();
+			String propertyTypeString = propertyTypeString(itemProperty);
+			return arrayType + "["
+					+ StringUtils.defaultString(propertyTypeString) + "]";
+		}
+
 		return property.getType();
 	}
 
-	private boolean isPropertyDefType(Swagger swagger, Property property) {
+	private boolean isPropertyRefType(Swagger swagger, Property property) {
 		if (property == null) {
 			return false;
 		}
@@ -247,16 +290,6 @@ public class Swagger2Html {
 			return false;
 		}
 		return true;
-	}
-
-	private boolean isPropertyPrimitiveType(Property schema) {
-		if (schema == null) {
-			return false;
-		}
-		if (schema instanceof RefProperty) {
-			return false;
-		}
-		return schema.getType() != null;
 	}
 
 	// TODO: response headers
