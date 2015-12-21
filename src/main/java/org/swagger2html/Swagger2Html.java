@@ -102,7 +102,13 @@ public class Swagger2Html {
 			RefParameter rp = (RefParameter) param;
 			return rp.getSimpleRef();
 		}
-		return (String) getBeanProperty(param, "type");
+		return getSimpleParamTypeString(param);
+	}
+
+	private String getSimpleParamTypeString(Parameter param) {
+		String type = (String) getBeanProperty(param, "type");
+		String format = (String) getBeanProperty(param, "type");
+		return decideTypeString(type, format);
 	}
 
 	private String getModelTypeString(Model model) {
@@ -288,7 +294,37 @@ public class Swagger2Html {
 					+ StringUtils.defaultString(propertyTypeString) + "]";
 		}
 
-		return property.getType();
+		return getSimpleTypeString(property);
+	}
+
+	private String getSimpleTypeString(Property property) {
+		String type = property.getType();
+		String format = property.getFormat();
+		return decideTypeString(type, format);
+	}
+
+	private String decideTypeString(String type, String format) {
+		if (type == null) {
+			return null;
+		}
+		if (format == null) {
+			return type;
+		}
+
+		if ("integer".equals(type) && "int64".equals(format)) {
+			return "int64";
+		}
+		
+		if ("integer".equals(type) && "int32".equals(format)) {
+			return "int32";
+		}
+
+		if ("string".equals(type) && "date-time".equals(format)) {
+			return "datetime";
+		}
+
+		return type;
+
 	}
 
 	private boolean isPropertyRefType(Swagger swagger, Property property) {
