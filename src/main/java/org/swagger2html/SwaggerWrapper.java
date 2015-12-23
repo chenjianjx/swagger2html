@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.pegdown.PegDownProcessor;
+
 /**
  * {@link Swagger} class is not friendly to freemarker. Let's wrap it to produce
  * a friendly one.
@@ -22,6 +24,8 @@ public class SwaggerWrapper {
 
 	private TreeMap<OperationIdentity, Operation> allOperationsMap = new TreeMap<OperationIdentity, Operation>();
 	private TreeMap<String, List<OperationIdentity>> tagAndIds = new TreeMap<String, List<OperationIdentity>>();
+
+	private PegDownProcessor pgp = new PegDownProcessor();
 
 	private Swagger swagger;
 
@@ -72,7 +76,7 @@ public class SwaggerWrapper {
 	private void addOperation(Operation operation, String tagStr,
 			String pathStr, String method) {
 		OperationIdentity id = new OperationIdentity();
- 
+
 		id.setTag(tagStr);
 		id.setPath(pathStr);
 		id.setMethod(method);
@@ -95,6 +99,19 @@ public class SwaggerWrapper {
 		return info.getTitle();
 	}
 
+	public String getDescription() {
+		Info info = swagger.getInfo();
+		if (info == null) {
+			return null;
+		}
+		String markdown = info.getDescription();
+		try {
+			return pgp.markdownToHtml(markdown);
+		} catch (Exception e) {
+			return markdown;
+		}
+	}
+
 	public Swagger getSwagger() {
 		return swagger;
 	}
@@ -113,9 +130,8 @@ public class SwaggerWrapper {
 		}
 		return idList;
 	}
-	
-	
-	public Operation getOperation(OperationIdentity id){
+
+	public Operation getOperation(OperationIdentity id) {
 		return allOperationsMap.get(id);
 	}
 
@@ -202,5 +218,5 @@ public class SwaggerWrapper {
 			return this.serialize().compareTo(obj.serialize());
 		}
 
-	}	
+	}
 }

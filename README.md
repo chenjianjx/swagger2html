@@ -58,7 +58,9 @@ In your pom.xml, add the following:
 
 
 
-Then call class ```` org.swagger2html.Swagger2Html.toHtml(url, output) ```` . 
+```` 
+	org.swagger2html.Swagger2Html.toHtml(url, output); 
+````  
 
 
 # Still Under Construction

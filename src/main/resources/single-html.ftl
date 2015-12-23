@@ -46,7 +46,11 @@
 			}
 			.summary-table tr td:nth-child(2){
     			width:30%;
-			}			
+			}		
+			
+			.info-table tr td:nth-child(1){
+    			width:15%;
+			}						
 
 			.operation-intro-table tr td:nth-child(1){
     			width:20%;
@@ -110,9 +114,56 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<div class="container">
-			<h1>${sw.getTitle()}</h1>			
+			<h1>${sw.getTitle()}</h1>		
 			
-			<hr/>
+			<#if sw.swagger.getInfo()??>
+				<h2>Information</h2>		
+				<div>						
+					<table class="table table-bordered info-table">
+						<tbody>
+								<tr>											
+									<td>Version</td> <td>${sw.swagger.getInfo().getVersion()}</td>
+								</tr>
+								
+								
+								
+								<#if sw.swagger.getInfo().getContact()??>
+									<tr>											
+										<td>Description</td> <td> <#noescape> ${sw.getDescription()}  </#noescape> </td>
+									</tr>
+								</#if>
+								
+								<#if sw.swagger.getInfo().getContact()??>
+									<#if sw.swagger.getInfo().getContact().getName()??>
+										<tr>											
+											<td>Contact Name</td><td>${sw.swagger.getInfo().getContact().getName()}</td>																																						 				
+										</tr>
+									</#if>
+									
+									<#if sw.swagger.getInfo().getContact().getEmail()??>
+										<tr>											
+											<td>Contact Email</td><td>${sw.swagger.getInfo().getContact().getEmail()}</td>																																						 				
+										</tr>
+									</#if>
+									<#if sw.swagger.getInfo().getContact().getUrl()??>
+										<tr>											
+											<td>Contact URL</td><td>${sw.swagger.getInfo().getContact().getUrl()}</td>																																						 				
+										</tr>
+									</#if>			
+								</#if>	
+								<#if sw.swagger.getInfo().getLicense()??>														
+									<tr>											
+										<td>License</td> <td>${sw.swagger.getInfo().getLicense().getName()}</td>																																						 				
+									</tr>	
+								</#if>
+								<tr>											
+									<td>Terms Of Service</td> <td>${sw.swagger.getInfo().getTermsOfService()}</td>																																						 				
+								</tr>																																			
+						</tbody>
+					</table>	
+				</div>						
+			</#if>
+ 
 			
 			<h2>Table of Contents</h2>		
 			<#if sw.swagger.getTags()??>

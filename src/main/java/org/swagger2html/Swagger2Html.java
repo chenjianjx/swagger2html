@@ -107,7 +107,7 @@ public class Swagger2Html {
 
 	private String getSimpleParamTypeString(Parameter param) {
 		String type = (String) getBeanProperty(param, "type");
-		String format = (String) getBeanProperty(param, "type");
+		String format = (String) getBeanProperty(param, "format");
 		return decideTypeString(type, format);
 	}
 
