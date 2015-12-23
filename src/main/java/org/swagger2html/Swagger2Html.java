@@ -254,8 +254,9 @@ public class Swagger2Html {
 							.getProperties();
 					modelPropertiesToRows(childProperties, swagger, ognlPath,
 							rows);
-					continue;
+					
 				}
+				continue;
 
 			}
 
