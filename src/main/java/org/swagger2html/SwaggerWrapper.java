@@ -210,6 +210,10 @@ public class SwaggerWrapper {
 			return tag + "::::" + path + "::::" + method;
 		}
 
+		public String toString() {
+			return serialize();
+		}
+
 		@Override
 		public int compareTo(OperationIdentity obj) {
 			if (obj == null) {

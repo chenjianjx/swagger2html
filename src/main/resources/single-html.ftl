@@ -255,11 +255,9 @@
 												<td>${param.getIn()}</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading">${paramTypeStr(param)}</div>														
-														<@showModelRows rows=paramToModelRows(param)/>																																								
-													</div>																									
-												
-																								
+														<div class="panel-heading">${paramTypeStr(param, operationId)}</div>														
+														<@showModelRows rows=paramToModelRows(param, operationId)/>																																								
+													</div>
 												</td>											
 												<td>${param.getRequired()?string('Y', 'N')}</td>
 												<td>${param.getDescription()}</td>
@@ -296,8 +294,8 @@
 												<td>
 													<#if sw.getOperation(operationId).getResponses()[httpCode].getSchema()??>													
 															<div class="panel panel-default">														
-																<div class="panel-heading">${propertyTypeStr(sw.getOperation(operationId).getResponses()[httpCode].getSchema())}</div>																
-																<@showModelRows rows=propertyToModelRows(sw.getOperation(operationId).getResponses()[httpCode].getSchema())/>																																								
+																<div class="panel-heading">${propertyTypeStr(sw.getOperation(operationId).getResponses()[httpCode].getSchema(), opeartionId)}</div>																
+																<@showModelRows rows=propertyToModelRows(sw.getOperation(operationId).getResponses()[httpCode].getSchema(), opeartionId)/>																																								
 															</div>														 
 													</#if>																								
 												</td>											

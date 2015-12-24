@@ -8,6 +8,7 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
 import io.swagger.models.RefModel;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.BodyParameter;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.swagger2html.SwaggerWrapper.OperationIdentity;
 import org.swagger2html.util.FreemarkerTemplateFactory;
 
 /**
@@ -78,8 +80,13 @@ public class Swagger2Html {
 	private final class ParamTypeStringTmme implements TemplateMethodModelEx {
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
-			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Parameter param = (Parameter) DeepUnwrap.unwrap(arg);
+			Parameter param = (Parameter) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(0));
+			@SuppressWarnings("unused")
+			// use to this get the context information while debuging
+			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(1));
+
 			return getParamTypeString(param);
 		}
 
@@ -102,6 +109,7 @@ public class Swagger2Html {
 			RefParameter rp = (RefParameter) param;
 			return rp.getSimpleRef();
 		}
+
 		return getSimpleParamTypeString(param);
 	}
 
@@ -126,6 +134,11 @@ public class Swagger2Html {
 					+ StringUtils.defaultString(propertyTypeString) + "]";
 		}
 
+		if (model instanceof ModelImpl) {
+			ModelImpl mi = (ModelImpl) model;
+			return mi.getType();
+		}
+
 		return null;
 	}
 
@@ -135,6 +148,11 @@ public class Swagger2Html {
 		public Object exec(List arguments) throws TemplateModelException {
 			TemplateModel arg = (TemplateModel) arguments.get(0);
 			Property schema = (Property) DeepUnwrap.unwrap(arg);
+			@SuppressWarnings("unused")
+			// use this to get the context information while debugging
+			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(1));
+
 			return propertyTypeString(schema);
 		}
 	}
@@ -153,8 +171,13 @@ public class Swagger2Html {
 		public Object exec(List arguments) throws TemplateModelException {
 			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
 
-			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Parameter param = (Parameter) DeepUnwrap.unwrap(arg);
+			Parameter param = (Parameter) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(0));
+			@SuppressWarnings("unused")
+			// use this to get the context information while debugging
+			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(1));
+
 			if (param == null) {
 				return rows;
 			}
@@ -192,8 +215,13 @@ public class Swagger2Html {
 
 		@Override
 		public Object exec(List arguments) throws TemplateModelException {
-			TemplateModel arg = (TemplateModel) arguments.get(0);
-			Property property = (Property) DeepUnwrap.unwrap(arg);
+			Property property = (Property) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(0));
+			@SuppressWarnings("unused")
+			// use this to get the context information while debugging
+			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
+					.unwrap((TemplateModel) arguments.get(1));
+
 			List<ModelRow> rows = new ArrayList<Swagger2Html.ModelRow>();
 			if (property == null) {
 				return rows;
@@ -254,7 +282,7 @@ public class Swagger2Html {
 							.getProperties();
 					modelPropertiesToRows(childProperties, swagger, ognlPath,
 							rows);
-					
+
 				}
 				continue;
 
@@ -315,7 +343,7 @@ public class Swagger2Html {
 		if ("integer".equals(type) && "int64".equals(format)) {
 			return "int64";
 		}
-		
+
 		if ("integer".equals(type) && "int32".equals(format)) {
 			return "int32";
 		}
