@@ -115,20 +115,33 @@
 		<div class="container">
 			<h1>${sw.getTitle()}</h1>		
 			
-			<#if sw.swagger.getInfo()??>
+			
 				<h2>Information</h2>		
 				<div>						
 					<table class="table table-bordered info-table">
 						<tbody>
+						<#if sw.getBaseUrls()??>
+								<tr>											
+									<td>Base URL</td> 
+									<td>
+										<#list sw.getBaseUrls() as baseUrl>
+											<p>${baseUrl}</p>
+										</#list>										
+									</td>
+								</tr>							
+						</#if>
+						
+						
+						<#if sw.swagger.getInfo()??>
 								<tr>											
 									<td>Version</td> <td>${sw.swagger.getInfo().getVersion()}</td>
 								</tr>
 								
 								
 								
-								<#if sw.swagger.getInfo().getContact()??>
+								<#if sw.swagger.getInfo().getDescription()??>
 									<tr>											
-										<td>Description</td> <td> <#noescape> ${sw.getDescription()}  </#noescape> </td>
+										<td>Description</td> <td> <#noescape> ${sw.getDescription()!}  </#noescape> </td>
 									</tr>
 								</#if>
 								
@@ -155,13 +168,16 @@
 										<td>License</td> <td>${sw.swagger.getInfo().getLicense().getName()}</td>																																						 				
 									</tr>	
 								</#if>
-								<tr>											
-									<td>Terms Of Service</td> <td>${sw.swagger.getInfo().getTermsOfService()}</td>																																						 				
-								</tr>																																			
+								<#if sw.swagger.getInfo().getTermsOfService()??>
+									<tr>											
+										<td>Terms Of Service</td> <td>${sw.swagger.getInfo().getTermsOfService()}</td>																																						 				
+									</tr>	
+								</#if>
+						</#if>																																										
 						</tbody>
 					</table>	
 				</div>						
-			</#if>
+
  
 			
 			<h2>Table of Contents</h2>		

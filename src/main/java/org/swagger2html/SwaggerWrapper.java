@@ -4,6 +4,7 @@ import io.swagger.models.HttpMethod;
 import io.swagger.models.Info;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
+import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.pegdown.PegDownProcessor;
 
 /**
@@ -114,6 +116,22 @@ public class SwaggerWrapper {
 
 	public Swagger getSwagger() {
 		return swagger;
+	}
+
+	public List<String> getBaseUrls() {
+		List<String> urls = new ArrayList<String>();
+		List<Scheme> schemes = swagger.getSchemes();
+		if (schemes == null) {
+			return urls;
+		}
+		for (Scheme scheme : schemes) {
+			String withoutScheme = swagger.getHost() + "/"
+					+ swagger.getBasePath();
+			withoutScheme = StringUtils.replace(withoutScheme, "//", "/");
+			String url = (scheme + "://" + withoutScheme).toLowerCase();
+			urls.add(url);
+		}
+		return urls;
 	}
 
 	/**
