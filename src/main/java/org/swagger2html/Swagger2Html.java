@@ -44,10 +44,15 @@ public class Swagger2Html {
 	private SwaggerParser swaggerParser = new SwaggerParser();
 
 	public void toHtml(String swaggerUrl, Writer out) throws IOException {
+		Swagger swagger = swaggerParser.read(swaggerUrl);
+		toHtml(swagger, out);
+
+	}
+
+	public void toHtml(Swagger swagger, Writer out) throws IOException {
 		Template template = freemarkerFactory
 				.getClasspathTemplate("/single-html.ftl");
 		Map<String, Object> model = new HashMap<String, Object>();
-		Swagger swagger = swaggerParser.read(swaggerUrl);
 		SwaggerWrapper sw = new SwaggerWrapper(swagger);
 		model.put("sw", sw);
 		model.put("displayList", new DisplayList());
@@ -60,7 +65,6 @@ public class Swagger2Html {
 		} catch (TemplateException e) {
 			throw new IllegalStateException(e);
 		}
-
 	}
 
 	@SuppressWarnings("rawtypes")

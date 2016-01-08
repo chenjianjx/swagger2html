@@ -33,7 +33,7 @@ public class SwaggerWrapper {
 
 	public SwaggerWrapper(Swagger swagger) {
 		if (swagger == null) {
-			throw new RuntimeException();
+			throw new RuntimeException("The swagger object is null");
 		}
 		this.swagger = swagger;
 
