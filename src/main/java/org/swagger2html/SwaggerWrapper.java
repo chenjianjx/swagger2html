@@ -6,8 +6,11 @@ import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,6 +29,7 @@ public class SwaggerWrapper {
 
 	private TreeMap<OperationIdentity, Operation> allOperationsMap = new TreeMap<OperationIdentity, Operation>();
 	private TreeMap<String, List<OperationIdentity>> tagAndIds = new TreeMap<String, List<OperationIdentity>>();
+	private ArrayList<Tag> tags;
 
 	private PegDownProcessor pgp = new PegDownProcessor();
 
@@ -116,6 +120,25 @@ public class SwaggerWrapper {
 
 	public Swagger getSwagger() {
 		return swagger;
+	}
+
+	public ArrayList<Tag> getTags() {
+		if (tags == null) {
+			tags = new ArrayList<Tag>();
+			if (swagger != null && swagger.getTags() != null) {
+				tags.addAll(swagger.getTags());
+			}
+			Comparator<Tag> TagComparator = new Comparator<Tag>() {
+				@Override
+				public int compare(Tag o1, Tag o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			};
+			Collections.sort(tags, TagComparator);
+		}
+
+		return tags;
+
 	}
 
 	public List<String> getBaseUrls() {

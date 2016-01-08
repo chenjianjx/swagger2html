@@ -181,8 +181,8 @@
  
 			
 			<h2>Table of Contents</h2>		
-			<#if sw.swagger.getTags()??>
-			<#list sw.swagger.getTags() as tag>
+			<#if sw.getTags()??>
+			<#list sw.getTags() as tag>
 			
 				<h3>${tag.getName()}</h3>
 				<h4>${tag.getDescription()}</h4>
@@ -220,8 +220,8 @@
 			
 			<!-- One tag after another-->			
 			
-			<#if sw.swagger.getTags()??>
-			<#list sw.swagger.getTags() as tag>					
+			<#if sw.getTags()??>
+			<#list sw.getTags() as tag>					
 				<h2>${tag.getName()}</h2>
 					<#list sw.getOperationIdsOfTag(tag.getName()) as operationId>
 					
