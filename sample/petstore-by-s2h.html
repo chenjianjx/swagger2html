@@ -13,11 +13,17 @@
 		
 		<style type="text/css">
 			.summary-table tr td:nth-child(1){
-    			width:10%;
+    			width:5%;
 			}
 			.summary-table tr td:nth-child(2){
+    			width:5%;
+			}		
+			.summary-table tr td:nth-child(3){
     			width:30%;
-			}			
+			}					
+			.info-table tr td:nth-child(1){
+    			width:15%;
+			}						
 
 			.operation-intro-table tr td:nth-child(1){
     			width:20%;
@@ -78,12 +84,48 @@
 		<![endif]-->
 		</head>
 		<body>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>		
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		
 		<div class="container">
-			<h1>Swagger Petstore</h1>			
+			<h1>Swagger Petstore</h1>		
 			
-			<hr/>
+			
+				<h2>Information</h2>		
+				<div>						
+					<table class="table table-bordered info-table">
+						<tbody>
+								<tr>											
+									<td>Base URL</td> 
+									<td>
+											<p>http://petstore.swagger.io/v2</p>
+									</td>
+								</tr>							
+						
+						
+								<tr>											
+									<td>Version</td> <td>1.0.0</td>
+								</tr>
+								
+								
+								
+									<tr>											
+										<td>Description</td> <td>  <p>This is a sample server Petstore server. You can find out more about Swagger at <a href="http://swagger.io">http://swagger.io</a> or on <a href="http://swagger.io/irc/">irc.freenode.net, #swagger</a>. For this sample, you can use the api key <code>special-key</code> to test the authorization filters.</p>   </td>
+									</tr>
+								
+									
+										<tr>											
+											<td>Contact Email</td><td>apiteam@swagger.io</td>																																						 				
+										</tr>
+									<tr>											
+										<td>License</td> <td>Apache 2.0</td>																																						 				
+									</tr>	
+									<tr>											
+										<td>Terms Of Service</td> <td>http://swagger.io/terms/</td>																																						 				
+									</tr>	
+						</tbody>
+					</table>	
+				</div>						
+
+ 
 			
 			<h2>Table of Contents</h2>		
 			
@@ -94,63 +136,72 @@
 					<table class="table table-bordered table-condensed summary-table">
 						<tbody>
 								<tr>
-									<th>Index</th>								
+									<th>Index</th>
+									<th>Method</th>								
 									<th>Path</th>		
 									<th>Summary</th>																												
 								</tr>						
 															 												
 									<tr>
-										<td><a href="#pet::::/pet::::put">1</a></td>																
-										<td><a href="#pet::::/pet::::put">put /pet</a></td>
+										<td><a href="#pet::::/pet::::PUT">1</a></td>								
+										<td><a href="#pet::::/pet::::PUT">PUT</a></td>								
+										<td><a href="#pet::::/pet::::PUT">/pet</a></td>
 										<td>
 												Update an existing pet
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet::::post">2</a></td>																
-										<td><a href="#pet::::/pet::::post">post /pet</a></td>
+										<td><a href="#pet::::/pet::::POST">2</a></td>								
+										<td><a href="#pet::::/pet::::POST">POST</a></td>								
+										<td><a href="#pet::::/pet::::POST">/pet</a></td>
 										<td>
 												Add a new pet to the store
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet/findByStatus::::get">3</a></td>																
-										<td><a href="#pet::::/pet/findByStatus::::get">get /pet/findByStatus</a></td>
+										<td><a href="#pet::::/pet/findByStatus::::GET">3</a></td>								
+										<td><a href="#pet::::/pet/findByStatus::::GET">GET</a></td>								
+										<td><a href="#pet::::/pet/findByStatus::::GET">/pet/findByStatus</a></td>
 										<td>
 												Finds Pets by status
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet/findByTags::::get">4</a></td>																
-										<td><a href="#pet::::/pet/findByTags::::get">get /pet/findByTags</a></td>
+										<td><a href="#pet::::/pet/findByTags::::GET">4</a></td>								
+										<td><a href="#pet::::/pet/findByTags::::GET">GET</a></td>								
+										<td><a href="#pet::::/pet/findByTags::::GET">/pet/findByTags</a></td>
 										<td>
 												Finds Pets by tags
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet/{petId}::::get">5</a></td>																
-										<td><a href="#pet::::/pet/{petId}::::get">get /pet/{petId}</a></td>
-										<td>
-												Find pet by ID
-										</td>											 					
-									</tr>								
-									<tr>
-										<td><a href="#pet::::/pet/{petId}::::delete">6</a></td>																
-										<td><a href="#pet::::/pet/{petId}::::delete">delete /pet/{petId}</a></td>
+										<td><a href="#pet::::/pet/{petId}::::DELETE">5</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::DELETE">DELETE</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::DELETE">/pet/{petId}</a></td>
 										<td>
 												Deletes a pet
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet/{petId}::::post">7</a></td>																
-										<td><a href="#pet::::/pet/{petId}::::post">post /pet/{petId}</a></td>
+										<td><a href="#pet::::/pet/{petId}::::POST">6</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::POST">POST</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::POST">/pet/{petId}</a></td>
 										<td>
 												Updates a pet in the store with form data
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#pet::::/pet/{petId}/uploadImage::::post">8</a></td>																
-										<td><a href="#pet::::/pet/{petId}/uploadImage::::post">post /pet/{petId}/uploadImage</a></td>
+										<td><a href="#pet::::/pet/{petId}::::GET">7</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::GET">GET</a></td>								
+										<td><a href="#pet::::/pet/{petId}::::GET">/pet/{petId}</a></td>
+										<td>
+												Find pet by ID
+										</td>											 					
+									</tr>								
+									<tr>
+										<td><a href="#pet::::/pet/{petId}/uploadImage::::POST">8</a></td>								
+										<td><a href="#pet::::/pet/{petId}/uploadImage::::POST">POST</a></td>								
+										<td><a href="#pet::::/pet/{petId}/uploadImage::::POST">/pet/{petId}/uploadImage</a></td>
 										<td>
 												uploads an image
 										</td>											 					
@@ -167,37 +218,42 @@
 					<table class="table table-bordered table-condensed summary-table">
 						<tbody>
 								<tr>
-									<th>Index</th>								
+									<th>Index</th>
+									<th>Method</th>								
 									<th>Path</th>		
 									<th>Summary</th>																												
 								</tr>						
 															 												
 									<tr>
-										<td><a href="#store::::/store/inventory::::get">1</a></td>																
-										<td><a href="#store::::/store/inventory::::get">get /store/inventory</a></td>
+										<td><a href="#store::::/store/inventory::::GET">1</a></td>								
+										<td><a href="#store::::/store/inventory::::GET">GET</a></td>								
+										<td><a href="#store::::/store/inventory::::GET">/store/inventory</a></td>
 										<td>
 												Returns pet inventories by status
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#store::::/store/order::::post">2</a></td>																
-										<td><a href="#store::::/store/order::::post">post /store/order</a></td>
+										<td><a href="#store::::/store/order::::POST">2</a></td>								
+										<td><a href="#store::::/store/order::::POST">POST</a></td>								
+										<td><a href="#store::::/store/order::::POST">/store/order</a></td>
 										<td>
 												Place an order for a pet
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#store::::/store/order/{orderId}::::get">3</a></td>																
-										<td><a href="#store::::/store/order/{orderId}::::get">get /store/order/{orderId}</a></td>
+										<td><a href="#store::::/store/order/{orderId}::::DELETE">3</a></td>								
+										<td><a href="#store::::/store/order/{orderId}::::DELETE">DELETE</a></td>								
+										<td><a href="#store::::/store/order/{orderId}::::DELETE">/store/order/{orderId}</a></td>
 										<td>
-												Find purchase order by ID
+												Delete purchase order by ID
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#store::::/store/order/{orderId}::::delete">4</a></td>																
-										<td><a href="#store::::/store/order/{orderId}::::delete">delete /store/order/{orderId}</a></td>
+										<td><a href="#store::::/store/order/{orderId}::::GET">4</a></td>								
+										<td><a href="#store::::/store/order/{orderId}::::GET">GET</a></td>								
+										<td><a href="#store::::/store/order/{orderId}::::GET">/store/order/{orderId}</a></td>
 										<td>
-												Delete purchase order by ID
+												Find purchase order by ID
 										</td>											 					
 									</tr>								
 						</tbody>
@@ -212,65 +268,74 @@
 					<table class="table table-bordered table-condensed summary-table">
 						<tbody>
 								<tr>
-									<th>Index</th>								
+									<th>Index</th>
+									<th>Method</th>								
 									<th>Path</th>		
 									<th>Summary</th>																												
 								</tr>						
 															 												
 									<tr>
-										<td><a href="#user::::/user::::post">1</a></td>																
-										<td><a href="#user::::/user::::post">post /user</a></td>
+										<td><a href="#user::::/user::::POST">1</a></td>								
+										<td><a href="#user::::/user::::POST">POST</a></td>								
+										<td><a href="#user::::/user::::POST">/user</a></td>
 										<td>
 												Create user
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/createWithArray::::post">2</a></td>																
-										<td><a href="#user::::/user/createWithArray::::post">post /user/createWithArray</a></td>
+										<td><a href="#user::::/user/createWithArray::::POST">2</a></td>								
+										<td><a href="#user::::/user/createWithArray::::POST">POST</a></td>								
+										<td><a href="#user::::/user/createWithArray::::POST">/user/createWithArray</a></td>
 										<td>
 												Creates list of users with given input array
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/createWithList::::post">3</a></td>																
-										<td><a href="#user::::/user/createWithList::::post">post /user/createWithList</a></td>
+										<td><a href="#user::::/user/createWithList::::POST">3</a></td>								
+										<td><a href="#user::::/user/createWithList::::POST">POST</a></td>								
+										<td><a href="#user::::/user/createWithList::::POST">/user/createWithList</a></td>
 										<td>
 												Creates list of users with given input array
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/login::::get">4</a></td>																
-										<td><a href="#user::::/user/login::::get">get /user/login</a></td>
+										<td><a href="#user::::/user/login::::GET">4</a></td>								
+										<td><a href="#user::::/user/login::::GET">GET</a></td>								
+										<td><a href="#user::::/user/login::::GET">/user/login</a></td>
 										<td>
 												Logs user into the system
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/logout::::get">5</a></td>																
-										<td><a href="#user::::/user/logout::::get">get /user/logout</a></td>
+										<td><a href="#user::::/user/logout::::GET">5</a></td>								
+										<td><a href="#user::::/user/logout::::GET">GET</a></td>								
+										<td><a href="#user::::/user/logout::::GET">/user/logout</a></td>
 										<td>
 												Logs out current logged in user session
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/{username}::::get">6</a></td>																
-										<td><a href="#user::::/user/{username}::::get">get /user/{username}</a></td>
+										<td><a href="#user::::/user/{username}::::DELETE">6</a></td>								
+										<td><a href="#user::::/user/{username}::::DELETE">DELETE</a></td>								
+										<td><a href="#user::::/user/{username}::::DELETE">/user/{username}</a></td>
 										<td>
-												Get user by user name
+												Delete user
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/{username}::::put">7</a></td>																
-										<td><a href="#user::::/user/{username}::::put">put /user/{username}</a></td>
+										<td><a href="#user::::/user/{username}::::PUT">7</a></td>								
+										<td><a href="#user::::/user/{username}::::PUT">PUT</a></td>								
+										<td><a href="#user::::/user/{username}::::PUT">/user/{username}</a></td>
 										<td>
 												Updated user
 										</td>											 					
 									</tr>								
 									<tr>
-										<td><a href="#user::::/user/{username}::::delete">8</a></td>																
-										<td><a href="#user::::/user/{username}::::delete">delete /user/{username}</a></td>
+										<td><a href="#user::::/user/{username}::::GET">8</a></td>								
+										<td><a href="#user::::/user/{username}::::GET">GET</a></td>								
+										<td><a href="#user::::/user/{username}::::GET">/user/{username}</a></td>
 										<td>
-												Delete user
+												Get user by user name
 										</td>											 					
 									</tr>								
 						</tbody>
@@ -287,7 +352,7 @@
 				<h2>pet</h2>
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet::::put">put /pet</a></h3>
+						<h3><a name="pet::::/pet::::PUT">PUT /pet</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -342,7 +407,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -360,7 +425,7 @@
 						</tr>										
 						<tr>
 							<td>category.id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -386,8 +451,8 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>photoUrls</td>
-							<td>array</td>
+							<td>photoUrls[]</td>
+							<td>array[string]</td>
 							<td></td>
 							<td></td>
 							<td>Y</td>
@@ -395,8 +460,26 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>tags</td>
-							<td>array</td>
+							<td>tags[]</td>
+							<td>array[Tag]</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].name</td>
+							<td>string</td>
 							<td></td>
 							<td></td>
 							<td>N</td>
@@ -413,9 +496,7 @@
 							</td>
 						</tr>										
 				</table>									
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Pet object that needs to be added to the store</td>
@@ -472,7 +553,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet::::post">post /pet</a></h3>
+						<h3><a name="pet::::/pet::::POST">POST /pet</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -527,7 +608,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -545,7 +626,7 @@
 						</tr>										
 						<tr>
 							<td>category.id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -571,8 +652,8 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>photoUrls</td>
-							<td>array</td>
+							<td>photoUrls[]</td>
+							<td>array[string]</td>
 							<td></td>
 							<td></td>
 							<td>Y</td>
@@ -580,8 +661,26 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>tags</td>
-							<td>array</td>
+							<td>tags[]</td>
+							<td>array[Tag]</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].name</td>
+							<td>string</td>
 							<td></td>
 							<td></td>
 							<td>N</td>
@@ -598,9 +697,7 @@
 							</td>
 						</tr>										
 				</table>									
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Pet object that needs to be added to the store</td>
@@ -643,7 +740,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet/findByStatus::::get">get /pet/findByStatus</a></h3>
+						<h3><a name="pet::::/pet/findByStatus::::GET">GET /pet/findByStatus</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -653,7 +750,7 @@
 											<td>Summary</td> <td>Finds Pets by status</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td>Multiple status values can be provided with comma seperated strings</td>
+											<td>Notes</td> <td>Multiple status values can be provided with comma separated strings</td>
 										</tr>
 										<tr>											
 											<td>Consumes</td> <td></td>
@@ -687,9 +784,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">array</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Status values that need to be considered for filter</td>
@@ -719,7 +814,107 @@
 												<td>successful operation</td>
 												<td>
 															<div class="panel panel-default">														
-																<div class="panel-heading">array</div>																
+																<div class="panel-heading">array[Pet]</div>																
+				<table class="table table-condensed table-bordered model-rows-table">																								
+					<tr>
+						<th>Property</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Format</th>
+						<th>Required</th>
+						<th>ReadOnly</th>
+					</tr>
+						<tr>
+							<td>[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category</td>
+							<td>Category</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category.id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category.name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>Y</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].photoUrls[]</td>
+							<td>array[string]</td>
+							<td></td>
+							<td></td>
+							<td>Y</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[]</td>
+							<td>array[Tag]</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[].name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].status</td>
+							<td>string</td>
+							<td>pet status in the store</td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+				</table>									
 															</div>														 
 												</td>											
 											</tr>								 					
@@ -742,7 +937,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet/findByTags::::get">get /pet/findByTags</a></h3>
+						<h3><a name="pet::::/pet/findByTags::::GET">GET /pet/findByTags</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -752,7 +947,7 @@
 											<td>Summary</td> <td>Finds Pets by tags</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td>Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.</td>
+											<td>Notes</td> <td>Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.</td>
 										</tr>
 										<tr>											
 											<td>Consumes</td> <td></td>
@@ -786,9 +981,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">array</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Tags to filter by</td>
@@ -818,7 +1011,107 @@
 												<td>successful operation</td>
 												<td>
 															<div class="panel panel-default">														
-																<div class="panel-heading">array</div>																
+																<div class="panel-heading">array[Pet]</div>																
+				<table class="table table-condensed table-bordered model-rows-table">																								
+					<tr>
+						<th>Property</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Format</th>
+						<th>Required</th>
+						<th>ReadOnly</th>
+					</tr>
+						<tr>
+							<td>[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category</td>
+							<td>Category</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category.id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].category.name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>Y</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].photoUrls[]</td>
+							<td>array[string]</td>
+							<td></td>
+							<td></td>
+							<td>Y</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[]</td>
+							<td>array[Tag]</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].tags[].name</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>[].status</td>
+							<td>string</td>
+							<td>pet status in the store</td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+				</table>									
 															</div>														 
 												</td>											
 											</tr>								 					
@@ -841,7 +1134,227 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet/{petId}::::get">get /pet/{petId}</a></h3>
+						<h3><a name="pet::::/pet/{petId}::::DELETE">DELETE /pet/{petId}</a></h3>
+						
+						<div>						
+							<table class="table table-bordered table-condensed operation-intro-table">
+								<tbody>
+										
+										<tr>
+											<td>Summary</td> <td>Deletes a pet</td>
+										</tr>
+										<tr>											
+											<td>Notes</td> <td></td>
+										</tr>
+										<tr>											
+											<td>Consumes</td> <td></td>
+										</tr>
+										<tr>											
+											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
+										</tr>								
+												
+			
+									
+								</tbody>
+							</table>	
+						</div>	
+									
+					<h4>Parameters</h4>	
+								
+			 																					
+						<div>				
+							<table class="table table-bordered param-table">
+								<tbody>
+										<tr>
+											<th>Name</th>										
+											<th>Parameter Type</th>	
+											<th>Data Type</th>																					
+											<th>Required</th>		
+											<th>Description</th>																														
+										</tr>	
+											<tr>																	
+												<td>api_key</td>
+												<td>header</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">string</div>														
+													</div>
+												</td>											
+												<td>N</td>
+												<td></td>
+											</tr>								 					
+
+									</tr>
+											<tr>																	
+												<td>petId</td>
+												<td>path</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">int64</div>														
+													</div>
+												</td>											
+												<td>Y</td>
+												<td>Pet id to delete</td>
+											</tr>								 					
+
+									</tr>
+																				
+								</tbody>						
+													
+							</table>		
+						</div>	
+										
+						
+
+						<h4>Responses</h4>		
+						<div>				
+							<table class="table table-bordered response-table">
+								<tbody>
+										<tr>
+											<th>HTTP Status Code</th>										
+											<th>Reason</th>	
+											<th>Response Type</th>																																																													
+										</tr>	
+			 								
+											<tr>																	
+												<td>400</td>
+												<td>Invalid ID supplied</td>
+												<td>
+												</td>											
+											</tr>								 					
+			 								
+											<tr>																	
+												<td>404</td>
+												<td>Pet not found</td>
+												<td>
+												</td>											
+											</tr>								 					
+									</tr>										
+																				
+								</tbody>						
+													
+							</table>	
+						</div>
+		
+
+
+															
+					
+						<!-- every operation -->
+						<h3><a name="pet::::/pet/{petId}::::POST">POST /pet/{petId}</a></h3>
+						
+						<div>						
+							<table class="table table-bordered table-condensed operation-intro-table">
+								<tbody>
+										
+										<tr>
+											<td>Summary</td> <td>Updates a pet in the store with form data</td>
+										</tr>
+										<tr>											
+											<td>Notes</td> <td></td>
+										</tr>
+										<tr>											
+											<td>Consumes</td> <td>application/x-www-form-urlencoded</td>
+										</tr>
+										<tr>											
+											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
+										</tr>								
+												
+			
+									
+								</tbody>
+							</table>	
+						</div>	
+									
+					<h4>Parameters</h4>	
+								
+			 																					
+						<div>				
+							<table class="table table-bordered param-table">
+								<tbody>
+										<tr>
+											<th>Name</th>										
+											<th>Parameter Type</th>	
+											<th>Data Type</th>																					
+											<th>Required</th>		
+											<th>Description</th>																														
+										</tr>	
+											<tr>																	
+												<td>petId</td>
+												<td>path</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">int64</div>														
+													</div>
+												</td>											
+												<td>Y</td>
+												<td>ID of pet that needs to be updated</td>
+											</tr>								 					
+
+									</tr>
+											<tr>																	
+												<td>name</td>
+												<td>formData</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">string</div>														
+													</div>
+												</td>											
+												<td>N</td>
+												<td>Updated name of the pet</td>
+											</tr>								 					
+
+									</tr>
+											<tr>																	
+												<td>status</td>
+												<td>formData</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">string</div>														
+													</div>
+												</td>											
+												<td>N</td>
+												<td>Updated status of the pet</td>
+											</tr>								 					
+
+									</tr>
+																				
+								</tbody>						
+													
+							</table>		
+						</div>	
+										
+						
+
+						<h4>Responses</h4>		
+						<div>				
+							<table class="table table-bordered response-table">
+								<tbody>
+										<tr>
+											<th>HTTP Status Code</th>										
+											<th>Reason</th>	
+											<th>Response Type</th>																																																													
+										</tr>	
+			 								
+											<tr>																	
+												<td>405</td>
+												<td>Invalid input</td>
+												<td>
+												</td>											
+											</tr>								 					
+									</tr>										
+																				
+								</tbody>						
+													
+							</table>	
+						</div>
+		
+
+
+															
+					
+						<!-- every operation -->
+						<h3><a name="pet::::/pet/{petId}::::GET">GET /pet/{petId}</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -884,10 +1397,8 @@
 												<td>path</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading">integer</div>														
-													</div>																									
-												
-																								
+														<div class="panel-heading">int64</div>														
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>ID of pet to return</td>
@@ -929,7 +1440,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -947,7 +1458,7 @@
 						</tr>										
 						<tr>
 							<td>category.id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -973,8 +1484,8 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>photoUrls</td>
-							<td>array</td>
+							<td>photoUrls[]</td>
+							<td>array[string]</td>
 							<td></td>
 							<td></td>
 							<td>Y</td>
@@ -982,8 +1493,26 @@
 							</td>
 						</tr>										
 						<tr>
-							<td>tags</td>
-							<td>array</td>
+							<td>tags[]</td>
+							<td>array[Tag]</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>tags[].name</td>
+							<td>string</td>
 							<td></td>
 							<td></td>
 							<td>N</td>
@@ -1029,230 +1558,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="pet::::/pet/{petId}::::delete">delete /pet/{petId}</a></h3>
-						
-						<div>						
-							<table class="table table-bordered table-condensed operation-intro-table">
-								<tbody>
-										
-										<tr>
-											<td>Summary</td> <td>Deletes a pet</td>
-										</tr>
-										<tr>											
-											<td>Notes</td> <td></td>
-										</tr>
-										<tr>											
-											<td>Consumes</td> <td></td>
-										</tr>
-										<tr>											
-											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
-										</tr>								
-												
-			
-									
-								</tbody>
-							</table>	
-						</div>	
-									
-					<h4>Parameters</h4>	
-								
-			 																					
-						<div>				
-							<table class="table table-bordered param-table">
-								<tbody>
-										<tr>
-											<th>Name</th>										
-											<th>Parameter Type</th>	
-											<th>Data Type</th>																					
-											<th>Required</th>		
-											<th>Description</th>																														
-										</tr>	
-											<tr>																	
-												<td>api_key</td>
-												<td>header</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>N</td>
-												<td></td>
-											</tr>								 					
-
-									</tr>
-											<tr>																	
-												<td>petId</td>
-												<td>path</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">integer</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>Y</td>
-												<td>Pet id to delete</td>
-											</tr>								 					
-
-									</tr>
-																				
-								</tbody>						
-													
-							</table>		
-						</div>	
-										
-						
-
-						<h4>Responses</h4>		
-						<div>				
-							<table class="table table-bordered response-table">
-								<tbody>
-										<tr>
-											<th>HTTP Status Code</th>										
-											<th>Reason</th>	
-											<th>Response Type</th>																																																													
-										</tr>	
-			 								
-											<tr>																	
-												<td>400</td>
-												<td>Invalid pet value</td>
-												<td>
-												</td>											
-											</tr>								 					
-									</tr>										
-																				
-								</tbody>						
-													
-							</table>	
-						</div>
-		
-
-
-															
-					
-						<!-- every operation -->
-						<h3><a name="pet::::/pet/{petId}::::post">post /pet/{petId}</a></h3>
-						
-						<div>						
-							<table class="table table-bordered table-condensed operation-intro-table">
-								<tbody>
-										
-										<tr>
-											<td>Summary</td> <td>Updates a pet in the store with form data</td>
-										</tr>
-										<tr>											
-											<td>Notes</td> <td></td>
-										</tr>
-										<tr>											
-											<td>Consumes</td> <td>application/x-www-form-urlencoded</td>
-										</tr>
-										<tr>											
-											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
-										</tr>								
-												
-			
-									
-								</tbody>
-							</table>	
-						</div>	
-									
-					<h4>Parameters</h4>	
-								
-			 																					
-						<div>				
-							<table class="table table-bordered param-table">
-								<tbody>
-										<tr>
-											<th>Name</th>										
-											<th>Parameter Type</th>	
-											<th>Data Type</th>																					
-											<th>Required</th>		
-											<th>Description</th>																														
-										</tr>	
-											<tr>																	
-												<td>petId</td>
-												<td>path</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">integer</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>Y</td>
-												<td>ID of pet that needs to be updated</td>
-											</tr>								 					
-
-									</tr>
-											<tr>																	
-												<td>name</td>
-												<td>formData</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>N</td>
-												<td>Updated name of the pet</td>
-											</tr>								 					
-
-									</tr>
-											<tr>																	
-												<td>status</td>
-												<td>formData</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>N</td>
-												<td>Updated status of the pet</td>
-											</tr>								 					
-
-									</tr>
-																				
-								</tbody>						
-													
-							</table>		
-						</div>	
-										
-						
-
-						<h4>Responses</h4>		
-						<div>				
-							<table class="table table-bordered response-table">
-								<tbody>
-										<tr>
-											<th>HTTP Status Code</th>										
-											<th>Reason</th>	
-											<th>Response Type</th>																																																													
-										</tr>	
-			 								
-											<tr>																	
-												<td>405</td>
-												<td>Invalid input</td>
-												<td>
-												</td>											
-											</tr>								 					
-									</tr>										
-																				
-								</tbody>						
-													
-							</table>	
-						</div>
-		
-
-
-															
-					
-						<!-- every operation -->
-						<h3><a name="pet::::/pet/{petId}/uploadImage::::post">post /pet/{petId}/uploadImage</a></h3>
+						<h3><a name="pet::::/pet/{petId}/uploadImage::::POST">POST /pet/{petId}/uploadImage</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -1295,10 +1601,8 @@
 												<td>path</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading">integer</div>														
-													</div>																									
-												
-																								
+														<div class="panel-heading">int64</div>														
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>ID of pet to update</td>
@@ -1311,9 +1615,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>N</td>
 												<td>Additional data to pass to server</td>
@@ -1326,9 +1628,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">file</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>N</td>
 												<td>file to upload</td>
@@ -1370,7 +1670,7 @@
 					</tr>
 						<tr>
 							<td>code</td>
-							<td>integer</td>
+							<td>int32</td>
 							<td></td>
 							<td>int32</td>
 							<td>N</td>
@@ -1415,7 +1715,7 @@
 				<h2>store</h2>
 					
 						<!-- every operation -->
-						<h3><a name="store::::/store/inventory::::get">get /store/inventory</a></h3>
+						<h3><a name="store::::/store/inventory::::GET">GET /store/inventory</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -1476,7 +1776,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="store::::/store/order::::post">post /store/order</a></h3>
+						<h3><a name="store::::/store/order::::POST">POST /store/order</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -1531,7 +1831,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -1540,7 +1840,7 @@
 						</tr>										
 						<tr>
 							<td>petId</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -1549,7 +1849,7 @@
 						</tr>										
 						<tr>
 							<td>quantity</td>
-							<td>integer</td>
+							<td>int32</td>
 							<td></td>
 							<td>int32</td>
 							<td>N</td>
@@ -1558,7 +1858,7 @@
 						</tr>										
 						<tr>
 							<td>shipDate</td>
-							<td>string</td>
+							<td>datetime</td>
 							<td></td>
 							<td>date-time</td>
 							<td>N</td>
@@ -1584,9 +1884,7 @@
 							</td>
 						</tr>										
 				</table>									
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>order placed for purchasing the pet</td>
@@ -1628,7 +1926,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -1637,7 +1935,7 @@
 						</tr>										
 						<tr>
 							<td>petId</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -1646,7 +1944,7 @@
 						</tr>										
 						<tr>
 							<td>quantity</td>
-							<td>integer</td>
+							<td>int32</td>
 							<td></td>
 							<td>int32</td>
 							<td>N</td>
@@ -1655,7 +1953,7 @@
 						</tr>										
 						<tr>
 							<td>shipDate</td>
-							<td>string</td>
+							<td>datetime</td>
 							<td></td>
 							<td>date-time</td>
 							<td>N</td>
@@ -1703,177 +2001,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="store::::/store/order/{orderId}::::get">get /store/order/{orderId}</a></h3>
-						
-						<div>						
-							<table class="table table-bordered table-condensed operation-intro-table">
-								<tbody>
-										
-										<tr>
-											<td>Summary</td> <td>Find purchase order by ID</td>
-										</tr>
-										<tr>											
-											<td>Notes</td> <td>For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions</td>
-										</tr>
-										<tr>											
-											<td>Consumes</td> <td></td>
-										</tr>
-										<tr>											
-											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
-										</tr>								
-												
-			
-									
-								</tbody>
-							</table>	
-						</div>	
-									
-					<h4>Parameters</h4>	
-								
-			 																					
-						<div>				
-							<table class="table table-bordered param-table">
-								<tbody>
-										<tr>
-											<th>Name</th>										
-											<th>Parameter Type</th>	
-											<th>Data Type</th>																					
-											<th>Required</th>		
-											<th>Description</th>																														
-										</tr>	
-											<tr>																	
-												<td>orderId</td>
-												<td>path</td>
-												<td>
-													<div class="panel panel-default">														
-														<div class="panel-heading">integer</div>														
-													</div>																									
-												
-																								
-												</td>											
-												<td>Y</td>
-												<td>ID of pet that needs to be fetched</td>
-											</tr>								 					
-
-									</tr>
-																				
-								</tbody>						
-													
-							</table>		
-						</div>	
-										
-						
-
-						<h4>Responses</h4>		
-						<div>				
-							<table class="table table-bordered response-table">
-								<tbody>
-										<tr>
-											<th>HTTP Status Code</th>										
-											<th>Reason</th>	
-											<th>Response Type</th>																																																													
-										</tr>	
-			 								
-											<tr>																	
-												<td>200</td>
-												<td>successful operation</td>
-												<td>
-															<div class="panel panel-default">														
-																<div class="panel-heading">Order</div>																
-				<table class="table table-condensed table-bordered model-rows-table">																								
-					<tr>
-						<th>Property</th>
-						<th>Type</th>
-						<th>Description</th>
-						<th>Format</th>
-						<th>Required</th>
-						<th>ReadOnly</th>
-					</tr>
-						<tr>
-							<td>id</td>
-							<td>integer</td>
-							<td></td>
-							<td>int64</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>petId</td>
-							<td>integer</td>
-							<td></td>
-							<td>int64</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>quantity</td>
-							<td>integer</td>
-							<td></td>
-							<td>int32</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>shipDate</td>
-							<td>string</td>
-							<td></td>
-							<td>date-time</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>status</td>
-							<td>string</td>
-							<td>Order Status</td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>complete</td>
-							<td>boolean</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-				</table>									
-															</div>														 
-												</td>											
-											</tr>								 					
-			 								
-											<tr>																	
-												<td>400</td>
-												<td>Invalid ID supplied</td>
-												<td>
-												</td>											
-											</tr>								 					
-			 								
-											<tr>																	
-												<td>404</td>
-												<td>Order not found</td>
-												<td>
-												</td>											
-											</tr>								 					
-									</tr>										
-																				
-								</tbody>						
-													
-							</table>	
-						</div>
-		
-
-
-															
-					
-						<!-- every operation -->
-						<h3><a name="store::::/store/order/{orderId}::::delete">delete /store/order/{orderId}</a></h3>
+						<h3><a name="store::::/store/order/{orderId}::::DELETE">DELETE /store/order/{orderId}</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -1883,7 +2011,7 @@
 											<td>Summary</td> <td>Delete purchase order by ID</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td>For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</td>
+											<td>Notes</td> <td>For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors</td>
 										</tr>
 										<tr>											
 											<td>Consumes</td> <td></td>
@@ -1916,10 +2044,8 @@
 												<td>path</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+														<div class="panel-heading">int64</div>														
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>ID of the order that needs to be deleted</td>
@@ -1968,12 +2094,180 @@
 
 															
 					
+						<!-- every operation -->
+						<h3><a name="store::::/store/order/{orderId}::::GET">GET /store/order/{orderId}</a></h3>
+						
+						<div>						
+							<table class="table table-bordered table-condensed operation-intro-table">
+								<tbody>
+										
+										<tr>
+											<td>Summary</td> <td>Find purchase order by ID</td>
+										</tr>
+										<tr>											
+											<td>Notes</td> <td>For valid response try integer IDs with value &gt;= 1 and &lt;= 10. Other values will generated exceptions</td>
+										</tr>
+										<tr>											
+											<td>Consumes</td> <td></td>
+										</tr>
+										<tr>											
+											<td>Produces</td> <td>application/xml,application/json</td>																																						 				
+										</tr>								
+												
+			
+									
+								</tbody>
+							</table>	
+						</div>	
+									
+					<h4>Parameters</h4>	
+								
+			 																					
+						<div>				
+							<table class="table table-bordered param-table">
+								<tbody>
+										<tr>
+											<th>Name</th>										
+											<th>Parameter Type</th>	
+											<th>Data Type</th>																					
+											<th>Required</th>		
+											<th>Description</th>																														
+										</tr>	
+											<tr>																	
+												<td>orderId</td>
+												<td>path</td>
+												<td>
+													<div class="panel panel-default">														
+														<div class="panel-heading">int64</div>														
+													</div>
+												</td>											
+												<td>Y</td>
+												<td>ID of pet that needs to be fetched</td>
+											</tr>								 					
+
+									</tr>
+																				
+								</tbody>						
+													
+							</table>		
+						</div>	
+										
+						
+
+						<h4>Responses</h4>		
+						<div>				
+							<table class="table table-bordered response-table">
+								<tbody>
+										<tr>
+											<th>HTTP Status Code</th>										
+											<th>Reason</th>	
+											<th>Response Type</th>																																																													
+										</tr>	
+			 								
+											<tr>																	
+												<td>200</td>
+												<td>successful operation</td>
+												<td>
+															<div class="panel panel-default">														
+																<div class="panel-heading">Order</div>																
+				<table class="table table-condensed table-bordered model-rows-table">																								
+					<tr>
+						<th>Property</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Format</th>
+						<th>Required</th>
+						<th>ReadOnly</th>
+					</tr>
+						<tr>
+							<td>id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>petId</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>quantity</td>
+							<td>int32</td>
+							<td></td>
+							<td>int32</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>shipDate</td>
+							<td>datetime</td>
+							<td></td>
+							<td>date-time</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>status</td>
+							<td>string</td>
+							<td>Order Status</td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>complete</td>
+							<td>boolean</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+				</table>									
+															</div>														 
+												</td>											
+											</tr>								 					
+			 								
+											<tr>																	
+												<td>400</td>
+												<td>Invalid ID supplied</td>
+												<td>
+												</td>											
+											</tr>								 					
+			 								
+											<tr>																	
+												<td>404</td>
+												<td>Order not found</td>
+												<td>
+												</td>											
+											</tr>								 					
+									</tr>										
+																				
+								</tbody>						
+													
+							</table>	
+						</div>
+		
+
+
+															
+					
 					
 											
 				<h2>user</h2>
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user::::post">post /user</a></h3>
+						<h3><a name="user::::/user::::POST">POST /user</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2028,7 +2322,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -2091,7 +2385,7 @@
 						</tr>										
 						<tr>
 							<td>userStatus</td>
-							<td>integer</td>
+							<td>int32</td>
 							<td>User Status</td>
 							<td>int32</td>
 							<td>N</td>
@@ -2099,9 +2393,7 @@
 							</td>
 						</tr>										
 				</table>									
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Created user object</td>
@@ -2144,7 +2436,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/createWithArray::::post">post /user/createWithArray</a></h3>
+						<h3><a name="user::::/user/createWithArray::::POST">POST /user/createWithArray</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2187,10 +2479,8 @@
 												<td>body</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading"></div>														
-													</div>																									
-												
-																								
+														<div class="panel-heading">array[User]</div>														
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>List of user object</td>
@@ -2233,7 +2523,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/createWithList::::post">post /user/createWithList</a></h3>
+						<h3><a name="user::::/user/createWithList::::POST">POST /user/createWithList</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2276,10 +2566,8 @@
 												<td>body</td>
 												<td>
 													<div class="panel panel-default">														
-														<div class="panel-heading"></div>														
-													</div>																									
-												
-																								
+														<div class="panel-heading">array[User]</div>														
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>List of user object</td>
@@ -2322,7 +2610,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/login::::get">get /user/login</a></h3>
+						<h3><a name="user::::/user/login::::GET">GET /user/login</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2366,9 +2654,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>The user name for login</td>
@@ -2381,9 +2667,7 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>The password for login in clear text</td>
@@ -2436,7 +2720,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/logout::::get">get /user/logout</a></h3>
+						<h3><a name="user::::/user/logout::::GET">GET /user/logout</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2494,17 +2778,17 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/{username}::::get">get /user/{username}</a></h3>
+						<h3><a name="user::::/user/{username}::::DELETE">DELETE /user/{username}</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
 								<tbody>
 										
 										<tr>
-											<td>Summary</td> <td>Get user by user name</td>
+											<td>Summary</td> <td>Delete user</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td></td>
+											<td>Notes</td> <td>This can only be done by the logged in user.</td>
 										</tr>
 										<tr>											
 											<td>Consumes</td> <td></td>
@@ -2538,12 +2822,10 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
-												<td>The name that needs to be fetched. Use user1 for testing. </td>
+												<td>The name that needs to be deleted</td>
 											</tr>								 					
 
 									</tr>
@@ -2564,98 +2846,6 @@
 											<th>Reason</th>	
 											<th>Response Type</th>																																																													
 										</tr>	
-			 								
-											<tr>																	
-												<td>200</td>
-												<td>successful operation</td>
-												<td>
-															<div class="panel panel-default">														
-																<div class="panel-heading">User</div>																
-				<table class="table table-condensed table-bordered model-rows-table">																								
-					<tr>
-						<th>Property</th>
-						<th>Type</th>
-						<th>Description</th>
-						<th>Format</th>
-						<th>Required</th>
-						<th>ReadOnly</th>
-					</tr>
-						<tr>
-							<td>id</td>
-							<td>integer</td>
-							<td></td>
-							<td>int64</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>username</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>firstName</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>lastName</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>email</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>password</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>phone</td>
-							<td>string</td>
-							<td></td>
-							<td></td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-						<tr>
-							<td>userStatus</td>
-							<td>integer</td>
-							<td>User Status</td>
-							<td>int32</td>
-							<td>N</td>
-							<td>
-							</td>
-						</tr>										
-				</table>									
-															</div>														 
-												</td>											
-											</tr>								 					
 			 								
 											<tr>																	
 												<td>400</td>
@@ -2682,7 +2872,7 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/{username}::::put">put /user/{username}</a></h3>
+						<h3><a name="user::::/user/{username}::::PUT">PUT /user/{username}</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
@@ -2726,12 +2916,10 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
-												<td>name that need to be deleted</td>
+												<td>name that need to be updated</td>
 											</tr>								 					
 
 									</tr>
@@ -2752,7 +2940,7 @@
 					</tr>
 						<tr>
 							<td>id</td>
-							<td>integer</td>
+							<td>int64</td>
 							<td></td>
 							<td>int64</td>
 							<td>N</td>
@@ -2815,7 +3003,7 @@
 						</tr>										
 						<tr>
 							<td>userStatus</td>
-							<td>integer</td>
+							<td>int32</td>
 							<td>User Status</td>
 							<td>int32</td>
 							<td>N</td>
@@ -2823,9 +3011,7 @@
 							</td>
 						</tr>										
 				</table>									
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
 												<td>Updated user object</td>
@@ -2875,17 +3061,17 @@
 															
 					
 						<!-- every operation -->
-						<h3><a name="user::::/user/{username}::::delete">delete /user/{username}</a></h3>
+						<h3><a name="user::::/user/{username}::::GET">GET /user/{username}</a></h3>
 						
 						<div>						
 							<table class="table table-bordered table-condensed operation-intro-table">
 								<tbody>
 										
 										<tr>
-											<td>Summary</td> <td>Delete user</td>
+											<td>Summary</td> <td>Get user by user name</td>
 										</tr>
 										<tr>											
-											<td>Notes</td> <td>This can only be done by the logged in user.</td>
+											<td>Notes</td> <td></td>
 										</tr>
 										<tr>											
 											<td>Consumes</td> <td></td>
@@ -2919,12 +3105,10 @@
 												<td>
 													<div class="panel panel-default">														
 														<div class="panel-heading">string</div>														
-													</div>																									
-												
-																								
+													</div>
 												</td>											
 												<td>Y</td>
-												<td>The name that needs to be deleted</td>
+												<td>The name that needs to be fetched. Use user1 for testing. </td>
 											</tr>								 					
 
 									</tr>
@@ -2945,6 +3129,98 @@
 											<th>Reason</th>	
 											<th>Response Type</th>																																																													
 										</tr>	
+			 								
+											<tr>																	
+												<td>200</td>
+												<td>successful operation</td>
+												<td>
+															<div class="panel panel-default">														
+																<div class="panel-heading">User</div>																
+				<table class="table table-condensed table-bordered model-rows-table">																								
+					<tr>
+						<th>Property</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Format</th>
+						<th>Required</th>
+						<th>ReadOnly</th>
+					</tr>
+						<tr>
+							<td>id</td>
+							<td>int64</td>
+							<td></td>
+							<td>int64</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>username</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>firstName</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>lastName</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>email</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>password</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>phone</td>
+							<td>string</td>
+							<td></td>
+							<td></td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+						<tr>
+							<td>userStatus</td>
+							<td>int32</td>
+							<td>User Status</td>
+							<td>int32</td>
+							<td>N</td>
+							<td>
+							</td>
+						</tr>										
+				</table>									
+															</div>														 
+												</td>											
+											</tr>								 					
 			 								
 											<tr>																	
 												<td>400</td>

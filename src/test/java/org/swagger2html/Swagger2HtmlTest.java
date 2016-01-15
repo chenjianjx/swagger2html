@@ -24,7 +24,7 @@ public class Swagger2HtmlTest {
 	public void init() throws IOException {
 		dir = new File(System.getProperty("user.home") + "/temp/s2h-test");
 		dir.mkdirs();
-		petstoreJsonFile = new File(dir, "petstore.json.generated");
+		petstoreJsonFile = new File(dir, "petstore.json");
 
 		FileUtils.writeStringToFile(petstoreJsonFile,
 				IOUtils.toString(Swagger2HtmlTest.class
@@ -36,7 +36,7 @@ public class Swagger2HtmlTest {
 	public void toHtmlTest() throws IOException {
 
 		Swagger2Html s2h = new Swagger2Html();
-		File outputFile = new File(dir, "output.html");
+		File outputFile = new File(dir, "petstore-by-s2h.html");
 		Writer out = null;
 		try {
 			out = new FileWriter(outputFile);

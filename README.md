@@ -49,7 +49,7 @@ In your pom.xml, add the following:
 		<dependency>
 			<groupId>com.github.chenjianjx</groupId>
 			<artifactId>swagger2html</artifactId>
-			<version>1.0</version>
+			<version>1.0.6</version>
 		</dependency>
 		...
 	</dependencies>	
@@ -63,8 +63,5 @@ In your pom.xml, add the following:
 ````  
 
 
-# Still Under Construction
-
-It hasn't gone through all possible cases or covered every piece of meta-data.   Please submit issues and pull requests. 
 
 
