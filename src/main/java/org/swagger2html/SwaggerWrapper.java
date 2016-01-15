@@ -69,7 +69,7 @@ public class SwaggerWrapper {
 		}
 
 		for (Map.Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
-			String method = entry.getKey().name().toLowerCase();
+			String method = entry.getKey().name();
 			Operation operation = entry.getValue();
 			List<String> tags = operation.getTags();
 			for (String tagStr : tags) {
@@ -179,9 +179,6 @@ public class SwaggerWrapper {
 	public static class OperationIdentity implements
 			Comparable<OperationIdentity> {
 		private String tag;
-		/**
-		 * in lower case
-		 */
 		private String method;
 		private String path;
 
@@ -197,6 +194,7 @@ public class SwaggerWrapper {
 			return method;
 		}
 
+		
 		public void setMethod(String method) {
 			this.method = method;
 		}

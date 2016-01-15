@@ -42,12 +42,14 @@
 		
 		<style type="text/css">
 			.summary-table tr td:nth-child(1){
-    			width:10%;
+    			width:5%;
 			}
 			.summary-table tr td:nth-child(2){
-    			width:30%;
+    			width:5%;
 			}		
-			
+			.summary-table tr td:nth-child(3){
+    			width:30%;
+			}					
 			.info-table tr td:nth-child(1){
     			width:15%;
 			}						
@@ -191,15 +193,17 @@
 					<table class="table table-bordered table-condensed summary-table">
 						<tbody>
 								<tr>
-									<th>Index</th>								
+									<th>Index</th>
+									<th>Method</th>								
 									<th>Path</th>		
 									<th>Summary</th>																												
 								</tr>						
 															 												
 								<#list sw.getOperationIdsOfTag(tag.getName()) as operationId>
 									<tr>
-										<td><a href="#${operationId.serialize()}">${operationId_index + 1}</a></td>																
-										<td><a href="#${operationId.serialize()}">${operationId.getMethod()} ${operationId.getPath()}</a></td>
+										<td><a href="#${operationId.serialize()}">${operationId_index + 1}</a></td>								
+										<td><a href="#${operationId.serialize()}">${operationId.getMethod()}</a></td>								
+										<td><a href="#${operationId.serialize()}">${operationId.getPath()}</a></td>
 										<td>
 											<#if sw.getOperation(operationId)??>
 												${sw.getOperation(operationId).getSummary()}
