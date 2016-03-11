@@ -22,7 +22,7 @@ Check the full html [here](https://rawgit.com/chenjianjx/swagger2html/master/sam
 
 ````
 mvn package 
-cp target 
+cd target 
 unzip target/swagger2html-some-version-jarset.zip -d /path/to/your/dir
 
 # Go to the direction of extraction and you will see an executable file. Run it like, 
