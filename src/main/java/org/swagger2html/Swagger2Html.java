@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.swagger2html.SwaggerWrapper.OperationIdentity;
 import org.swagger2html.util.FreemarkerTemplateFactory;
@@ -44,17 +45,29 @@ public class Swagger2Html {
 	private SwaggerParser swaggerParser = new SwaggerParser();
 
 	public void toHtml(String swaggerUrl, Writer out) throws IOException {
-		Swagger swagger = swaggerParser.read(swaggerUrl);
-		toHtml(swagger, out);
-
+		this.toHtml(swaggerUrl, null, out);
 	}
 
-	public void toHtml(Swagger swagger, Writer out) throws IOException {
+	public void toHtml(String swaggerUrl, String cssToInclude, Writer out)
+			throws IOException {
+		Swagger swagger = swaggerParser.read(swaggerUrl);
+		toHtml(swagger, cssToInclude, out);
+	}
+
+	private void toHtml(Swagger swagger, String cssToInclude, Writer out)
+			throws IOException {
 		Template template = freemarkerFactory
 				.getClasspathTemplate("/single-html.ftl");
+		
+		if(cssToInclude == null){
+			  cssToInclude = IOUtils.toString(this.getClass().getResource(
+					"/css-to-include.html"));
+		}
+		
 		Map<String, Object> model = new HashMap<String, Object>();
 		SwaggerWrapper sw = new SwaggerWrapper(swagger);
 		model.put("sw", sw);
+		model.put("css", cssToInclude);
 		model.put("displayList", new DisplayList());
 		model.put("paramTypeStr", new ParamTypeStringTmme());
 		model.put("paramToModelRows", new ParameterToModelRowsTmme(swagger));

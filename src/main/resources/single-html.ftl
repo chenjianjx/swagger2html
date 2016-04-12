@@ -37,69 +37,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-	
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">	
 		
-		<style type="text/css">
-			.summary-table tr td:nth-child(1){
-    			width:5%;
-			}
-			.summary-table tr td:nth-child(2){
-    			width:5%;
-			}		
-			.summary-table tr td:nth-child(3){
-    			width:30%;
-			}					
-			.info-table tr td:nth-child(1){
-    			width:15%;
-			}						
-
-			.operation-intro-table tr td:nth-child(1){
-    			width:20%;
-			}			
-			
-			.param-table tr td:nth-child(1){
-				width:10%;
-			}
-			.param-table tr td:nth-child(2){				
-				width:10%;
-			}
-			.param-table tr td:nth-child(3){
-				width:60%;
-			}
-			.param-table tr td:nth-child(4){
-				width:10%;
-			}													
-						
-			.response-table tr td:nth-child(1){
-				width:10%;
-			}			
-			
-			.response-table tr td:nth-child(2){				
-				width:20%;
-			}		
-			
-			.model-rows-table tr td:nth-child(1){
-				width:40%;
-			} 
-			.model-rows-table tr td:nth-child(2){
-				width:5%;
-			}		
-			.model-rows-table tr td:nth-child(3){
-				width:40%;
-			}		
-			.model-rows-table tr td:nth-child(4){
-				width:5%;
-			}		
-			.model-rows-table tr td:nth-child(5){
-				width:5%;
-			}																	
-			.model-rows-table tr td:nth-child(6){
-				width:5%;
-			}					
- 						
-			
-		</style>
+		<#noescape>
+			${css}
+		</#noescape>
+		
 			
 		<title>
 			${sw.getTitle()}
