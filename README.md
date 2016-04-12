@@ -60,7 +60,8 @@ In your pom.xml, add the following:
 
 
 ````java 
-	org.swagger2html.Swagger2Html.toHtml(url, output); 
+	Swagger2Html s2h = new Swagger2Html();
+	s2h.toHtml("http://petstore.swagger.io/v2/swagger.json", out);
 ````  
 
 ## Customization of CSS
@@ -75,6 +76,7 @@ In java program, you can
 
 ````java 
 	String cssToInclude = FileUtils.toString("/path/to/your/css/with/html/tag.html");  
-	org.swagger2html.Swagger2Html.toHtml(url, cssToInclude, output); 
+	Swagger2Html s2h = new Swagger2Html();
+	s2h.toHtml("http://petstore.swagger.io/v2/swagger.json", out);
 ````  
 
