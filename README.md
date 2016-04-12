@@ -50,7 +50,7 @@ In your pom.xml, add the following:
 		<dependency>
 			<groupId>com.github.chenjianjx</groupId>
 			<artifactId>swagger2html</artifactId>
-			<version>1.0.6</version>
+			<version>1.0.7</version>
 		</dependency>
 		...
 	</dependencies>	
