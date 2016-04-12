@@ -58,10 +58,20 @@ In your pom.xml, add the following:
 
 
 
-```` 
+````java 
 	org.swagger2html.Swagger2Html.toHtml(url, output); 
 ````  
 
+## Customization of CSS
 
+````bash
+	
+	./s2h.sh http://petstore.swagger.io/v2/swagger.json /path/to/your/html/doc/file -css /path/to/your/css/with/html/tag.html");  #A css template can be found at [here](https://github.com/chenjianjx/swagger2html/tree/master/src/main/resources/css-to-include.html). It's not a css file but css snippets and/or external css links in an html file
+	
+````
 
+````java 
+	String cssToInclude = FileUtils.toString("/path/to/your/css/with/html/tag.html");  
+	org.swagger2html.Swagger2Html.toHtml(url, cssToInclude, output); 
+````  
 
