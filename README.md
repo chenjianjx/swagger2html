@@ -65,9 +65,9 @@ In your pom.xml, add the following:
 ## Customization of CSS
 
 ````bash
-	./s2h.sh http://petstore.swagger.io/v2/swagger.json /path/to/your/html/doc/file -css /path/to/your/css/with/html/tag.html");  
+./s2h.sh http://petstore.swagger.io/v2/swagger.json /path/to/your/html/doc/file -css /path/to/your/css/with/html/tag.html");  
 ````
-A css template can be found at [here](https://github.com/chenjianjx/swagger2html/tree/master/src/main/resources/css-to-include.html). It's not a css file but css snippets and/or external css links in an html file.
+A css template can be found at [here](src/main/resources/css-to-include.html). It's not a css file but css snippets and/or external css links in an html file.
 
 
 In java program, you can 
