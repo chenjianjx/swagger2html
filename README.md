@@ -28,6 +28,7 @@ unzip target/swagger2html-some-version-jarset.zip -d /path/to/your/dir
 # Go to the direction of extraction and you will see an executable file. Run it like, 
 
 ./s2h.sh http://petstore.swagger.io/v2/swagger.json /path/to/your/html/doc/file
+# or s2h.bat for windows
 
 ````
 
