@@ -77,6 +77,6 @@ In java program, you can
 ````java 
 	String cssToInclude = FileUtils.toString("/path/to/your/css/with/html/tag.html");  
 	Swagger2Html s2h = new Swagger2Html();
-	s2h.toHtml("http://petstore.swagger.io/v2/swagger.json", out);
+	s2h.toHtml("http://petstore.swagger.io/v2/swagger.json", cssToInclude , out);
 ````  
 
