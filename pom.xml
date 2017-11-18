@@ -4,9 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.chenjianjx</groupId>
 	<artifactId>swagger2html</artifactId>
-	<version>1.0.7</version>
-	<name>convert swagger json to readable doc</name>
-
+	<version>2.0.0</version>
+	<name>Swagger to Html</name>
+	<description>A java tool to convert swagger json to readable doc</description>
+	<url>https://github.com/chenjianjx/swagger2html</url>
 
 	<properties>
 		<junit.version>4.9</junit.version>
@@ -14,11 +15,45 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+
+	<developers>
+		<developer>
+			<name>Jian Chen</name>
+			<email>chenjianjx@gmail.com</email>
+			<organizationUrl>http://www.chenjianjx.com</organizationUrl>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/chenjianjx/swagger2html.git</connection>
+		<developerConnection>scm:git:ssh://github.com:chenjianjx/swagger2html.git</developerConnection>
+		<url>https://github.com/chenjianjx/swagger2html</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+
+
 	<build>
 		<plugins>
-
-
-			<plugin>  <!-- Create sources.jar -->
+			<plugin>  
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -77,6 +112,8 @@
 		</plugins>
 	</build>
 
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -126,5 +163,30 @@
 
 
 	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
