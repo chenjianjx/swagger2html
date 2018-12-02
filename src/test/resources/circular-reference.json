@@ -1,0 +1,67 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0-SNAPSHOT",
+    "title" : "circular-reference",
+    "contact" : {
+      "name" : "circular@reference.com"
+    }
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/fo/rest",
+  "tags" : [ {
+    "name" : "recursive"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/recursive/try" : {
+      "post" : {
+        "tags" : [ "recursive" ],
+        "summary" : "Try circular reference",
+        "description" : "",
+        "operationId" : "tryIt",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/RecursiveMan"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "RecursiveMan" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "wife" : {
+          "$ref" : "#/definitions/Woman"
+        }
+      }
+    },
+    "Woman" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "husband" : {
+          "$ref" : "#/definitions/RecursiveMan"
+        }
+      }
+    }
+  }
+}
