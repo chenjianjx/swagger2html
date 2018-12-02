@@ -1,65 +1,103 @@
 {
-  "swagger" : "2.0",
-  "info" : {
-    "version" : "1.0-SNAPSHOT",
-    "title" : "circular-reference",
-    "contact" : {
-      "name" : "circular@reference.com"
+  "swagger": "2.0",
+  "info": {
+    "description": "Nothing",
+    "version": "1.0-SNAPSHOT",
+    "title": "test",
+    "contact": {
+      "name": "test@test.com"
     }
   },
-  "host" : "localhost:8080",
-  "basePath" : "/fo/rest",
-  "tags" : [ {
-    "name" : "recursive"
-  } ],
-  "schemes" : [ "http" ],
-  "paths" : {
-    "/recursive/try" : {
-      "post" : {
-        "tags" : [ "recursive" ],
-        "summary" : "Try circular reference",
-        "description" : "",
-        "operationId" : "tryIt",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "$ref" : "#/definitions/RecursiveMan"
+  "host": "localhost:8080",
+  "basePath": "/fo/rest",
+  "tags": [
+    {
+      "name": "recursive"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/recursive/try": {
+      "post": {
+        "tags": [
+          "recursive"
+        ],
+        "summary": "Try circular reference",
+        "description": "",
+        "operationId": "tryIt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/RecursiveWoman"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/RecursiveMan"
             }
           }
         }
       }
     }
   },
-  "definitions" : {
-    "RecursiveMan" : {
-      "type" : "object",
-      "properties" : {
-        "firstName" : {
-          "type" : "string"
+  "definitions": {
+    "RecursiveMan": {
+      "type": "object",
+      "properties": {
+        "favouriteBeer": {
+          "type": "string"
         },
-        "lastName" : {
-          "type" : "string"
+        "wife": {
+          "$ref": "#/definitions/RecursiveWoman"
         },
-        "wife" : {
-          "$ref" : "#/definitions/Woman"
+        "sons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecursiveMan"
+          }
+        },
+        "daughters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecursiveWoman"
+          }
         }
       }
     },
-    "Woman" : {
-      "type" : "object",
-      "properties" : {
-        "firstName" : {
-          "type" : "string"
+    "RecursiveWoman": {
+      "type": "object",
+      "properties": {
+        "favouriteWine": {
+          "type": "string"
         },
-        "lastName" : {
-          "type" : "string"
+        "husband": {
+          "$ref": "#/definitions/RecursiveMan"
         },
-        "husband" : {
-          "$ref" : "#/definitions/RecursiveMan"
+        "sons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecursiveMan"
+          }
+        },
+        "daughters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecursiveWoman"
+          }
         }
       }
     }

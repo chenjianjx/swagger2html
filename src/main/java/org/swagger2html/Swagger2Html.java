@@ -21,10 +21,7 @@ import io.swagger.parser.SwaggerParser;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
@@ -190,6 +187,9 @@ public class Swagger2Html {
 
 			Parameter param = (Parameter) DeepUnwrap
 					.unwrap((TemplateModel) arguments.get(0));
+
+			Set<RefProperty> visitedRefProperties = new LinkedHashSet<>();
+
 			@SuppressWarnings("unused")
 			// use this to get the context information while debugging
 			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
@@ -213,7 +213,7 @@ public class Swagger2Html {
 					return rows;
 				}
 				modelPropertiesToRows(model.getProperties(), swagger, null,
-						rows);
+						rows, visitedRefProperties);
 				return rows;
 			}
 			return rows;
@@ -234,6 +234,7 @@ public class Swagger2Html {
 		public Object exec(List arguments) throws TemplateModelException {
 			Property property = (Property) DeepUnwrap
 					.unwrap((TemplateModel) arguments.get(0));
+			Set<RefProperty> visitedRefProperties = new LinkedHashSet<>();
 			@SuppressWarnings("unused")
 			// use this to get the context information while debugging
 			OperationIdentity operationId = (OperationIdentity) DeepUnwrap
@@ -247,20 +248,25 @@ public class Swagger2Html {
 			if (property instanceof ArrayProperty) {
 				Property itemProperty = ((ArrayProperty) property).getItems();
 				if (isPropertyRefType(swagger, itemProperty)) {
+					visitedRefProperties.add((RefProperty) itemProperty);
+
 					Model model = swagger.getDefinitions().get(
 							propertyTypeString(itemProperty));
 					Map<String, Property> childProperties = model
 							.getProperties();
-					modelPropertiesToRows(childProperties, swagger, "[]", rows);
+
+					modelPropertiesToRows(childProperties, swagger, "[]", rows, visitedRefProperties);
 					return rows;
 				}
 			}
 
 			if (isPropertyRefType(swagger, property)) {
+				visitedRefProperties.add((RefProperty) property);
+
 				String type = propertyTypeString(property);
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
-				modelPropertiesToRows(childProperties, swagger, null, rows);
+				modelPropertiesToRows(childProperties, swagger, null, rows, visitedRefProperties);
 				return rows;
 			}
 			return rows;
@@ -270,11 +276,13 @@ public class Swagger2Html {
 	}
 
 	private void modelPropertiesToRows(Map<String, Property> properties,
-			Swagger swagger, String parentPath, List<ModelRow> rows) {
+			Swagger swagger, String parentPath, List<ModelRow> rows,
+									   Set<RefProperty> visitedRefProperties) { //this parameter is used to avoid infinite recursion
 
 		if (properties == null) {
 			return;
 		}
+
 
 		for (Map.Entry<String, Property> entry : properties.entrySet()) {
 			String ognlPath = parentPath == null ? entry.getKey() : (parentPath
@@ -292,13 +300,16 @@ public class Swagger2Html {
 
 				Property itemProperty = ((ArrayProperty) property).getItems();
 
-				if (isPropertyRefType(swagger, itemProperty)) {
+				if (isPropertyRefType(swagger, itemProperty) && !visitedRefProperties.contains(itemProperty)) {
+
+					visitedRefProperties.add((RefProperty) itemProperty);
+
 					Model model = swagger.getDefinitions().get(
 							propertyTypeString(itemProperty));
 					Map<String, Property> childProperties = model
 							.getProperties();
 					modelPropertiesToRows(childProperties, swagger, ognlPath,
-							rows);
+							rows, visitedRefProperties);
 
 				}
 				continue;
@@ -311,10 +322,13 @@ public class Swagger2Html {
 			row.setTypeStr(type);
 			rows.add(row);
 
-			if (isPropertyRefType(swagger, property) && type != null) {
+			if (isPropertyRefType(swagger, property) && type != null && !visitedRefProperties.contains(property)) {
+
+				visitedRefProperties.add((RefProperty) property);
+
 				Model model = swagger.getDefinitions().get(type);
 				Map<String, Property> childProperties = model.getProperties();
-				modelPropertiesToRows(childProperties, swagger, ognlPath, rows);
+				modelPropertiesToRows(childProperties, swagger, ognlPath, rows, visitedRefProperties);
 			}
 			continue;
 		}
