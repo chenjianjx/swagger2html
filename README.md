@@ -51,6 +51,7 @@ In your pom.xml, add the following:
 
 ```java 
 	Swagger2Html s2h = new Swagger2Html();
+	Writer writer = new FileWriter("someFile.html");
 	s2h.toHtml("http://petstore.swagger.io/v2/swagger.json", writer);
 ```
 
