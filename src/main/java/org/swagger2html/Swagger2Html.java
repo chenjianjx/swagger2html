@@ -51,7 +51,7 @@ public class Swagger2Html {
 		toHtml(swagger, cssToInclude, out);
 	}
 
-	private void toHtml(Swagger swagger, String cssToInclude, Writer out)
+	public void toHtml(Swagger swagger, String cssToInclude, Writer out)
 			throws IOException {
 		Template template = freemarkerFactory
 				.getClasspathTemplate("/single-html.ftl");
