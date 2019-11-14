@@ -265,8 +265,10 @@ public class Swagger2Html {
 
 				String type = propertyTypeString(property);
 				Model model = swagger.getDefinitions().get(type);
-				Map<String, Property> childProperties = model.getProperties();
-				modelPropertiesToRows(childProperties, swagger, null, rows, visitedRefProperties);
+				if(model != null) {
+					Map<String, Property> childProperties = model.getProperties();
+					modelPropertiesToRows(childProperties, swagger, null, rows, visitedRefProperties);
+				}
 				return rows;
 			}
 			return rows;
@@ -306,10 +308,12 @@ public class Swagger2Html {
 
 					Model model = swagger.getDefinitions().get(
 							propertyTypeString(itemProperty));
-					Map<String, Property> childProperties = model
-							.getProperties();
-					modelPropertiesToRows(childProperties, swagger, ognlPath,
-							rows, visitedRefProperties);
+					if(model !=null) {
+						Map<String, Property> childProperties = model
+								.getProperties();
+						modelPropertiesToRows(childProperties, swagger, ognlPath,
+								rows, visitedRefProperties);
+					}
 
 				}
 				continue;
@@ -327,8 +331,10 @@ public class Swagger2Html {
 				visitedRefProperties.add((RefProperty) property);
 
 				Model model = swagger.getDefinitions().get(type);
-				Map<String, Property> childProperties = model.getProperties();
-				modelPropertiesToRows(childProperties, swagger, ognlPath, rows, visitedRefProperties);
+				if(model != null) {
+					Map<String, Property> childProperties = model.getProperties();
+					modelPropertiesToRows(childProperties, swagger, ognlPath, rows, visitedRefProperties);
+				}
 			}
 			continue;
 		}
